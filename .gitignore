@@ -1,0 +1,17 @@
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+
+# Node.js
+whatsapp-bridge/node_modules/
+whatsapp-bridge/.wwebjs_auth/
+whatsapp-bridge/.wwebjs_cache/
+npm-debug.log*
+
+# Database & OS
+*.db
+.DS_Store
+Thumbs.db

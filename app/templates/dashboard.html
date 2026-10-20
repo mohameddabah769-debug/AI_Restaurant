@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم مطعم روستيكا | Rostica Kitchen & Menu Dashboard</title>
+    <!-- Bootstrap RTL CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f4f6f9;
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #d9232d !important;
+        }
+        .stat-card {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+        .order-card {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+        .order-card.new-order {
+            border-right: 6px solid #ffc107;
+            animation: pulse-border 2s infinite;
+        }
+        .order-card.in-prep {
+            border-right: 6px solid #fd7e14;
+        }
+        .order-card.out-delivery {
+            border-right: 6px solid #0d6efd;
+        }
+        .order-card.delivered {
+            border-right: 6px solid #198754;
+            opacity: 0.85;
+        }
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 193, 7, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+        }
+        .status-badge {
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+        .items-box {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+        .btn-action {
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .sound-toggle {
+            cursor: pointer;
+        }
+
+        /* تنسيق طباعة البون الحراري (POS Thermal Receipt 80mm) */
+        @media print {
+            body * {
+                visibility: hidden !important;
+            }
+            #printReceiptArea, #printReceiptArea * {
+                visibility: visible !important;
+            }
+            #printReceiptArea {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 78mm;
+                padding: 4mm;
+                margin: 0;
+                font-family: 'Cairo', 'Courier New', monospace;
+                color: #000;
+                background: #fff;
+                font-size: 13px;
+                line-height: 1.4;
+            }
+        }
+        .receipt-header {
+            text-align: center;
+            border-bottom: 2px dashed #000;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+        }
+        .receipt-footer {
+            text-align: center;
+            border-top: 2px dashed #000;
+            padding-top: 8px;
+            margin-top: 8px;
+        }
+        .dashed-line {
+            border-top: 1px dashed #000;
+            margin: 6px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 shadow-sm">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="#">
+                <i class="fa-solid fa-utensils me-2"></i> مطعم روستيكا — شاشة المطبخ وإدارة المنيو
+            </a>
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-warning btn-sm fw-bold px-3" onclick="openMenuModal()">
+                    <i class="fa-solid fa-pen-to-square me-1"></i> إدارة وتعديل المنيو والأسعار
+                </button>
+                <button id="soundBtn" class="btn btn-outline-light btn-sm sound-toggle" onclick="toggleAudio()">
+                    <i class="fa-solid fa-volume-high me-1"></i> تنبيه صوتي: مفعّل
+                </button>
+                <span class="badge bg-success py-2 px-3">
+                    <i class="fa-solid fa-circle-check me-1"></i> متصل
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-4 py-4">
+
+        <!-- الإحصائيات السريعة -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="card stat-card p-3 bg-white">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-muted small">طلبات اليوم</span>
+                            <h3 id="statTotalOrders" class="fw-bold mb-0 text-dark">0</h3>
+                        </div>
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 text-primary">
+                            <i class="fa-solid fa-receipt fa-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card stat-card p-3 bg-white">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-muted small">مبيعات اليوم</span>
+                            <h3 id="statTotalSales" class="fw-bold mb-0 text-success">0 ج</h3>
+                        </div>
+                        <div class="rounded-circle bg-success bg-opacity-10 p-3 text-success">
+                            <i class="fa-solid fa-money-bill-wave fa-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card stat-card p-3 bg-white">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-muted small">طلبات قيد التجهيز</span>
+                            <h3 id="statInPrep" class="fw-bold mb-0 text-warning">0</h3>
+                        </div>
+                        <div class="rounded-circle bg-warning bg-opacity-10 p-3 text-warning">
+                            <i class="fa-solid fa-fire-burner fa-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card stat-card p-3 bg-white">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="text-muted small">خرجت مع الدليفري</span>
+                            <h3 id="statOutDelivery" class="fw-bold mb-0 text-info">0</h3>
+                        </div>
+                        <div class="rounded-circle bg-info bg-opacity-10 p-3 text-info">
+                            <i class="fa-solid fa-motorcycle fa-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- فلاتر الحالات -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold mb-0 text-dark">
+                <i class="fa-solid fa-bell text-warning me-2"></i> الطلبات الواردة لحظة بلحظة
+            </h5>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-dark btn-sm active" onclick="setFilter('all', this)">الكل</button>
+                <button type="button" class="btn btn-outline-warning btn-sm" onclick="setFilter('Confirmed', this)">جديدة 🔔</button>
+                <button type="button" class="btn btn-outline-primary btn-sm" onclick="setFilter('In_Preparation', this)">في المطبخ 👨‍🍳</button>
+                <button type="button" class="btn btn-outline-info btn-sm" onclick="setFilter('Out_For_Delivery', this)">دليفري 🛵</button>
+                <button type="button" class="btn btn-outline-success btn-sm" onclick="setFilter('Delivered', this)">مكتملة ✅</button>
+            </div>
+        </div>
+
+        <!-- شبكة الطلبات الحية -->
+        <div id="ordersContainer" class="row">
+            <div class="col-12 text-center py-5 text-muted">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-2">جاري تحميل الطلبات...</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- نافذة إدارة وتعديل المنيو والأسعار (Menu Manager Modal) -->
+    <div class="modal fade" id="menuModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <div class="d-flex align-items-center justify-content-between w-100 me-3">
+                        <h5 class="modal-title fw-bold mb-0">
+                            <i class="fa-solid fa-book-open me-2 text-warning"></i> قائمة طعام المطعم (تعديل الأسعار وإضافة أصناف)
+                        </h5>
+                        <button class="btn btn-success btn-sm fw-bold" onclick="openAddItemModal()">
+                            <i class="fa-solid fa-plus me-1"></i> إضافة صنف جديد للمنيو
+                        </button>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row g-2 mb-3">
+                        <div class="col-md-7">
+                            <input type="text" id="menuSearchInput" class="form-control" placeholder="ابحث باسم الصنف أو المكونات..." oninput="filterMenuItems()">
+                        </div>
+                        <div class="col-md-5">
+                            <select id="menuCategoryFilter" class="form-select" onchange="filterMenuItems()">
+                                <option value="all">جميع الأقسام</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="menuItemsList" class="list-group">
+                        <div class="text-center py-4 text-muted">جاري تحميل الأصناف...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إضافة صنف جديد (Add Item Modal) -->
+    <div class="modal fade" id="addItemModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title fw-bold"><i class="fa-solid fa-plus-circle me-2"></i> إضافة صنف جديد للمنيو</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addItemForm" onsubmit="submitAddItem(event)">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">اسم الصنف:</label>
+                            <input type="text" id="addName" class="form-control" placeholder="مثال: كريب سوبر كرانشي" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">القسم:</label>
+                            <input type="text" id="addCategory" class="form-control" list="categoriesDatalist" placeholder="اختر قسماً أو اكتب قسماً جديداً" required>
+                            <datalist id="categoriesDatalist"></datalist>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">السعر (بالجنيه):</label>
+                            <input type="number" step="0.5" id="addPrice" class="form-control" placeholder="مثال: 120" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الوصف أو المكونات (اختياري):</label>
+                            <textarea id="addDesc" class="form-control" rows="2" placeholder="مكونات الصنف..."></textarea>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            <button type="submit" class="btn btn-success fw-bold">حفظ وإضافة للمنيو</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تعديل صنف (Edit Item Modal) -->
+    <div class="modal fade" id="editItemModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title fw-bold"><i class="fa-solid fa-pen-to-square me-2"></i> تعديل الصنف والسعر</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editItemForm" onsubmit="submitEditItem(event)">
+                        <input type="hidden" id="editId">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">اسم الصنف:</label>
+                            <input type="text" id="editName" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">القسم:</label>
+                            <input type="text" id="editCategory" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">السعر (بالجنيه):</label>
+                            <input type="number" step="0.5" id="editPrice" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الوصف أو المكونات:</label>
+                            <textarea id="editDesc" class="form-control" rows="2"></textarea>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            <button type="submit" class="btn btn-primary fw-bold">حفظ التعديلات</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- منطقة طباعة البون الحراري الخفية (Thermal Receipt Printable Area) -->
+    <div id="printReceiptArea" style="display: none;">
+        <div class="receipt-header">
+            <h4 style="margin: 0; font-weight: 800;">مطعم روستيكا</h4>
+            <div>جرجا - شارع الساحة (أمام مدرسة التجارة)</div>
+            <div>خدمة التوصيل السريع 🛵</div>
+        </div>
+        <div><strong>رقم الأوردر:</strong> #<span id="pOrderId"></span></div>
+        <div><strong>التاريخ:</strong> <span id="pOrderDate"></span></div>
+        <div><strong>العميل:</strong> <span id="pCustomerPhone"></span></div>
+        <div><strong>النوع:</strong> <span id="pOrderType"></span></div>
+        <div id="pAddressRow"><strong>العنوان:</strong> <span id="pCustomerAddress"></span></div>
+        <div class="dashed-line"></div>
+        <div style="font-weight: bold; margin-bottom: 4px;">تفاصيل الطلب:</div>
+        <div id="pOrderItems" style="white-space: pre-line; margin-bottom: 6px;"></div>
+        <div class="dashed-line"></div>
+        <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: bold;">
+            <span>المطلوب دفعه:</span>
+            <span><span id="pOrderTotal"></span> جنيه</span>
+        </div>
+        <div class="receipt-footer">
+            <div>شكراً لطلبكم من مطعم روستيكا ❤️</div>
+            <div>بالهنا والشفا دائماً</div>
+        </div>
+    </div>
+
+    <!-- صوت التنبيه للطلبات الجديدة -->
+    <audio id="alertAudio" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let currentFilter = 'all';
+        let soundEnabled = true;
+        let lastKnownMaxOrderId = 0;
+        let allOrdersData = [];
+        let allMenuItems = [];
+
+        function toggleAudio() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('soundBtn');
+            if (soundEnabled) {
+                btn.innerHTML = '<i class="fa-solid fa-volume-high me-1"></i> تنبيه صوتي: مفعّل';
+                btn.className = 'btn btn-outline-light btn-sm sound-toggle';
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-volume-xmark me-1"></i> تنبيه صوتي: معطل';
+                btn.className = 'btn btn-outline-secondary btn-sm sound-toggle';
+            }
+        }
+
+        function setFilter(status, btn) {
+            currentFilter = status;
+            document.querySelectorAll('.btn-group .btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderOrders(allOrdersData);
+        }
+
+        async function updateStatus(orderId, newStatus) {
+            try {
+                const res = await fetch(`/api/orders/${orderId}/status?status=${newStatus}`, { method: 'POST' });
+                if (res.ok) {
+                    fetchOrders();
+                } else {
+                    alert('تعذر تحديث حالة الطلب');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('خطأ في الاتصال');
+            }
+        }
+
+        // طباعة البون الحراري
+        function printReceipt(orderId) {
+            const order = allOrdersData.find(o => o.id === orderId);
+            if (!order) return;
+
+            document.getElementById('pOrderId').innerText = order.id;
+            document.getElementById('pOrderDate').innerText = `${order.created_date || ''} ${order.created_at || ''}`;
+            document.getElementById('pCustomerPhone').innerText = order.customer_phone;
+            document.getElementById('pOrderType').innerText = order.order_type;
+            
+            const addrRow = document.getElementById('pAddressRow');
+            if (order.delivery_address) {
+                addrRow.style.display = 'block';
+                document.getElementById('pCustomerAddress').innerText = order.delivery_address;
+            } else {
+                addrRow.style.display = 'none';
+            }
+
+            document.getElementById('pOrderItems').innerText = order.items_summary;
+            document.getElementById('pOrderTotal').innerText = order.total_price;
+
+            const printArea = document.getElementById('printReceiptArea');
+            printArea.style.display = 'block';
+            window.print();
+            printArea.style.display = 'none';
+        }
+
+        // ===================================
+        // إدارة المنيو والأسعار (Menu CRUD)
+        // ===================================
+        let menuModalInstance = null;
+        let addItemModalInstance = null;
+        let editItemModalInstance = null;
+
+        async function openMenuModal() {
+            if (!menuModalInstance) {
+                menuModalInstance = new bootstrap.Modal(document.getElementById('menuModal'));
+            }
+            menuModalInstance.show();
+            await fetchMenuItems();
+        }
+
+        function openAddItemModal() {
+            if (!addItemModalInstance) {
+                addItemModalInstance = new bootstrap.Modal(document.getElementById('addItemModal'));
+            }
+            document.getElementById('addItemForm').reset();
+            addItemModalInstance.show();
+        }
+
+        function openEditItemModal(item) {
+            if (!editItemModalInstance) {
+                editItemModalInstance = new bootstrap.Modal(document.getElementById('editItemModal'));
+            }
+            document.getElementById('editId').value = item.id;
+            document.getElementById('editName').value = item.name;
+            document.getElementById('editCategory').value = item.category;
+            document.getElementById('editPrice').value = item.price;
+            document.getElementById('editDesc').value = item.description || '';
+            editItemModalInstance.show();
+        }
+
+        async function fetchMenuItems() {
+            try {
+                const res = await fetch('/api/menu-items');
+                allMenuItems = await res.json();
+                populateCategoriesDatalist();
+                renderMenuItems(allMenuItems);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function populateCategoriesDatalist() {
+            const categories = [...new Set(allMenuItems.map(i => i.category))];
+            const datalist = document.getElementById('categoriesDatalist');
+            const selectFilter = document.getElementById('menuCategoryFilter');
+            
+            datalist.innerHTML = categories.map(c => `<option value="${c}">`).join('');
+            
+            const currentSelected = selectFilter.value;
+            selectFilter.innerHTML = '<option value="all">جميع الأقسام</option>' + 
+                categories.map(c => `<option value="${c}">${c}</option>`).join('');
+            selectFilter.value = currentSelected;
+        }
+
+        function filterMenuItems() {
+            const query = document.getElementById('menuSearchInput').value.toLowerCase();
+            const cat = document.getElementById('menuCategoryFilter').value;
+            const filtered = allMenuItems.filter(it => {
+                const matchQuery = it.name.toLowerCase().includes(query) || (it.category && it.category.toLowerCase().includes(query));
+                const matchCat = (cat === 'all') || (it.category === cat);
+                return matchQuery && matchCat;
+            });
+            renderMenuItems(filtered);
+        }
+
+        function renderMenuItems(items) {
+            const list = document.getElementById('menuItemsList');
+            if (!items || items.length === 0) {
+                list.innerHTML = '<div class="text-center py-4 text-muted">لا توجد أصناف مطابقة</div>';
+                return;
+            }
+
+            let html = '';
+            items.forEach(item => {
+                const isAvail = item.is_available;
+                const safeItemJson = encodeURIComponent(JSON.stringify(item));
+                html += `
+                <div class="list-group-item d-flex flex-wrap justify-content-between align-items-center py-3">
+                    <div class="me-3">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <h6 class="mb-0 fw-bold fs-6">${item.name}</h6>
+                            <span class="badge bg-secondary">${item.category}</span>
+                            ${item.description ? `<small class="text-muted">(${item.description})</small>` : ''}
+                        </div>
+                        <span class="fw-bold text-danger fs-5">${item.price} جنيه</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mt-2 mt-sm-0">
+                        <button class="btn btn-sm btn-outline-primary" onclick="triggerEdit('${safeItemJson}')">
+                            <i class="fa-solid fa-pen-to-square me-1"></i> تعديل
+                        </button>
+                        <button class="btn btn-sm ${isAvail ? 'btn-success' : 'btn-warning text-dark'}" onclick="toggleItemAvailability(${item.id})">
+                            <i class="fa-solid ${isAvail ? 'fa-check' : 'fa-ban'} me-1"></i>
+                            ${isAvail ? 'متاح' : 'نافذ ❌'}
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteItem(${item.id}, '${item.name}')">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>`;
+            });
+            list.innerHTML = html;
+        }
+
+        function triggerEdit(itemEncoded) {
+            const item = JSON.parse(decodeURIComponent(itemEncoded));
+            openEditItemModal(item);
+        }
+
+        async function submitAddItem(e) {
+            e.preventDefault();
+            const payload = {
+                name: document.getElementById('addName').value,
+                category: document.getElementById('addCategory').value,
+                price: parseFloat(document.getElementById('addPrice').value),
+                description: document.getElementById('addDesc').value
+            };
+
+            try {
+                const res = await fetch('/api/menu-items', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    addItemModalInstance.hide();
+                    await fetchMenuItems();
+                } else {
+                    alert('تعذر إضافة الصنف، يرجى المحاولة مرة أخرى.');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function submitEditItem(e) {
+            e.preventDefault();
+            const itemId = document.getElementById('editId').value;
+            const payload = {
+                name: document.getElementById('editName').value,
+                category: document.getElementById('editCategory').value,
+                price: parseFloat(document.getElementById('editPrice').value),
+                description: document.getElementById('editDesc').value
+            };
+
+            try {
+                const res = await fetch(`/api/menu-items/${itemId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    editItemModalInstance.hide();
+                    await fetchMenuItems();
+                } else {
+                    alert('تعذر تعديل الصنف.');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function deleteItem(itemId, itemName) {
+            if (!confirm(`هل أنت متأكد من رغبتك في حذف صنف (${itemName}) من المنيو نهائياً؟`)) return;
+
+            try {
+                const res = await fetch(`/api/menu-items/${itemId}`, { method: 'DELETE' });
+                if (res.ok) {
+                    await fetchMenuItems();
+                } else {
+                    alert('تعذر حذف الصنف');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function toggleItemAvailability(itemId) {
+            try {
+                const res = await fetch(`/api/menu-items/${itemId}/toggle`, { method: 'POST' });
+                if (res.ok) {
+                    const data = await res.json();
+                    const target = allMenuItems.find(i => i.id === itemId);
+                    if (target) target.is_available = data.is_available;
+                    filterMenuItems();
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function getStatusInfo(status) {
+            switch(status) {
+                case 'Confirmed':
+                    return { label: 'طلب جديد 🔔', badgeClass: 'bg-warning text-dark', cardClass: 'new-order' };
+                case 'In_Preparation':
+                    return { label: 'جاري التحضير 👨‍🍳', badgeClass: 'bg-warning text-dark', cardClass: 'in-prep' };
+                case 'Out_For_Delivery':
+                    return { label: 'مع الدليفري 🛵', badgeClass: 'bg-info text-dark', cardClass: 'out-delivery' };
+                case 'Delivered':
+                    return { label: 'تم التسليم بنجاح ✅', badgeClass: 'bg-success text-white', cardClass: 'delivered' };
+                case 'Cancelled':
+                    return { label: 'ملغي ❌', badgeClass: 'bg-danger text-white', cardClass: '' };
+                default:
+                    return { label: status, badgeClass: 'bg-secondary text-white', cardClass: '' };
+            }
+        }
+
+        async function fetchOrders() {
+            try {
+                const res = await fetch('/api/orders');
+                const data = await res.json();
+                allOrdersData = data.orders || [];
+                renderOrders(allOrdersData);
+                renderStats(data.stats);
+
+                if (allOrdersData.length > 0) {
+                    const maxId = Math.max(...allOrdersData.map(o => o.id));
+                    if (lastKnownMaxOrderId !== 0 && maxId > lastKnownMaxOrderId && soundEnabled) {
+                        document.getElementById('alertAudio').play().catch(e => console.log('Audio error:', e));
+                    }
+                    lastKnownMaxOrderId = maxId;
+                }
+            } catch (err) {
+                console.error('Fetch error:', err);
+            }
+        }
+
+        function renderStats(stats) {
+            if (!stats) return;
+            document.getElementById('statTotalOrders').innerText = stats.total_orders;
+            document.getElementById('statTotalSales').innerText = stats.total_sales + ' ج';
+            document.getElementById('statInPrep').innerText = stats.in_prep;
+            document.getElementById('statOutDelivery').innerText = stats.out_delivery;
+        }
+
+        function renderOrders(orders) {
+            const container = document.getElementById('ordersContainer');
+            if (!orders || orders.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="fa-solid fa-clipboard-check fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">لا توجد طلبات مسجلة حالياً</h5>
+                    </div>`;
+                return;
+            }
+
+            const filtered = orders.filter(o => {
+                if (currentFilter === 'all') return true;
+                return o.status === currentFilter;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <h6 class="text-muted">لا توجد طلبات في هذا التصنيف</h6>
+                    </div>`;
+                return;
+            }
+
+            let html = '';
+            filtered.forEach(order => {
+                const sInfo = getStatusInfo(order.status);
+                const phoneClean = order.customer_phone ? order.customer_phone.replace(/[^0-9]/g, '') : '';
+                const waLink = phoneClean ? `https://wa.me/${phoneClean}` : '#';
+
+                html += `
+                <div class="col-lg-4 col-md-6">
+                    <div class="card order-card ${sInfo.cardClass} p-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="fw-bold fs-5 text-dark">أوردر #${order.id}</span>
+                            <span class="status-badge ${sInfo.badgeClass}">${sInfo.label}</span>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between text-muted small mb-2">
+                            <span><i class="fa-regular fa-clock me-1"></i> ${order.created_at}</span>
+                            <span><i class="fa-solid fa-motorcycle me-1"></i> ${order.order_type}</span>
+                        </div>
+
+                        <div class="mb-2">
+                            <a href="${waLink}" target="_blank" class="text-decoration-none fw-bold text-success">
+                                <i class="fa-brands fa-whatsapp me-1"></i> ${order.customer_phone}
+                            </a>
+                            ${order.delivery_address ? `<div class="text-muted small mt-1"><i class="fa-solid fa-location-dot text-danger me-1"></i> ${order.delivery_address}</div>` : ''}
+                        </div>
+
+                        <div class="items-box mb-3">
+                            ${order.items_summary}
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="fw-bold text-muted">الإجمالي:</span>
+                            <span class="fs-5 fw-extrabold text-danger">${order.total_price} جنيه</span>
+                        </div>
+
+                        <!-- أزرار الإجراءات السريعة والطباعة -->
+                        <div class="d-flex flex-wrap gap-2 pt-2 border-top">
+                            <button class="btn btn-outline-dark btn-sm btn-action" onclick="printReceipt(${order.id})" title="طباعة بون المطبخ">
+                                <i class="fa-solid fa-print"></i> بون
+                            </button>
+
+                            ${order.status === 'Confirmed' ? `
+                                <button class="btn btn-warning btn-sm btn-action flex-fill" onclick="updateStatus(${order.id}, 'In_Preparation')">
+                                    <i class="fa-solid fa-fire me-1"></i> بدء التحضير
+                                </button>
+                            ` : ''}
+
+                            ${order.status === 'In_Preparation' ? `
+                                <button class="btn btn-primary btn-sm btn-action flex-fill" onclick="updateStatus(${order.id}, 'Out_For_Delivery')">
+                                    <i class="fa-solid fa-motorcycle me-1"></i> خروج مع الدليفري
+                                </button>
+                            ` : ''}
+
+                            ${order.status === 'Out_For_Delivery' ? `
+                                <button class="btn btn-success btn-sm btn-action flex-fill" onclick="updateStatus(${order.id}, 'Delivered')">
+                                    <i class="fa-solid fa-check me-1"></i> تم التسليم
+                                </button>
+                            ` : ''}
+
+                            ${order.status !== 'Delivered' && order.status !== 'Cancelled' ? `
+                                <button class="btn btn-outline-danger btn-sm btn-action" onclick="updateStatus(${order.id}, 'Cancelled')">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+
+                    </div>
+                </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // تحديث كل 4 ثوانٍ تلقائياً
+        fetchOrders();
+        setInterval(fetchOrders, 4000);
+    </script>
+</body>
+</html>
