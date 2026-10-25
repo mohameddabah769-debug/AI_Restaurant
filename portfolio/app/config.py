@@ -16,7 +16,7 @@ PROFILE = {
     "experience_years": "3+",
     "completed_projects": "25+",
     "happy_clients": "100%",
-    "phone": "+2010957446766",
+    "phone": "+201095744676",
     "email": "contact@mohamed-dabah.tech",
     "location": "Cairo, Egypt",
 }
