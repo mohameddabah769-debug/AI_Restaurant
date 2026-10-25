@@ -123,12 +123,13 @@
             <p class="section-desc">نماذج من الأنظمة البرمجية المتقدمة، شات بوتات الواتساب، والواجهات ثلاثية الأبعاد.</p>
         </div>
 
-        <div class="projects-filter">
-            <button class="filter-btn active" data-filter="all">جميع المشاريع</button>
-            <button class="filter-btn" data-filter="AI & Automation">AI & WhatsApp</button>
-            <button class="filter-btn" data-filter="AI & LLMs">Multi-Agent AI</button>
-            <button class="filter-btn" data-filter="3D & Frontend">3D Web</button>
-            <button class="filter-btn" data-filter="Computer Vision">Computer Vision</button>
+                <div class="projects-filter">
+            <button class="filter-btn active" data-filter="all">جميع المشاريع والحلول (10+)</button>
+            <button class="filter-btn" data-filter="Business Systems">🏢 أنظمة الشركات والمخازن</button>
+            <button class="filter-btn" data-filter="Innovative Web">🛒 المتاجر والمواقع المبتكرة</button>
+            <button class="filter-btn" data-filter="Fintech & Bookings">💳 المحافظ والحجوزات</button>
+            <button class="filter-btn" data-filter="Educational">🎓 إدارة الطلاب والمكتبات</button>
+            <button class="filter-btn" data-filter="AI & Automation">⚡ الذكاء الاصطناعي وواتساب</button>
         </div>
 
         <div class="projects-grid">
@@ -136,7 +137,13 @@
             <div class="project-card glass-panel tilt-card" data-category="{{ project.category }}">
                 <div class="glare-effect"></div>
                 <div>
-                    <span class="project-tag-badge">{{ project.category }}</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <span class="project-tag-badge">{{ project.category }}</span>
+                        {% if project.badge %}
+                        <span style="font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: var(--radius-full); background: rgba(255,255,255,0.08); color: var(--neon-cyan); border: 1px solid rgba(0,240,255,0.2);">{{ project.badge }}</span>
+                        {% endif %}
+                    </div>
+
                     <h3 class="project-title">{{ project.title }}</h3>
                     <h4 class="project-arabic-title">{{ project.arabic_title }}</h4>
                     <p class="project-desc">{{ project.description }}</p>
@@ -148,10 +155,19 @@
                     </ul>
                 </div>
 
-                <div class="tech-stack-pills">
-                    {% for tech in project.technologies %}
-                    <span class="tech-pill">{{ tech }}</span>
-                    {% endfor %}
+                <div>
+                    <div class="tech-stack-pills">
+                        {% for tech in project.technologies %}
+                        <span class="tech-pill">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-glass);">
+                        <a href="https://wa.me/201095744676?text=مرحباً%20بشمهندس%20محمد،%20أود%20طلب%20تنفيذ%20مشروع%20مشابه%20لـ:%20{{ project.arabic_title }}" target="_blank" class="btn-open-channel" style="width: 100%; justify-content: center; background: rgba(0, 240, 255, 0.08); border-color: rgba(0, 240, 255, 0.3); color: var(--neon-cyan);">
+                            <i data-lucide="sparkles"></i>
+                            <span>طلب تنفيذ هذا المشروع</span>
+                        </a>
+                    </div>
                 </div>
             </div>
             {% endfor %}
