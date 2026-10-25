@@ -199,12 +199,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // 7. Ultra-Fast Typewriter Effect (Zero Lag)
     const typeWriterEl = document.getElementById('typewriter-text');
     if (typeWriterEl) {
-        const phrases = [
+        let phrases = [
             'Computer Engineer 💻',
             'AI & Software Systems Specialist ⚡',
             'Enterprise ERP & Invoices Architect 🏢',
             'Next-Gen 3D Web & Full-Stack Developer 🚀'
         ];
+        window.updateTypewriterPhrases = function(newPhrases) {
+            phrases = newPhrases;
+            pIdx = 0;
+            charIdx = 0;
+            isDeleting = false;
+        };
         let pIdx = 0, charIdx = 0, isDeleting = false;
         
         function tickTypewriter() {

@@ -30,21 +30,25 @@
         <nav class="navbar glass-panel">
             <a href="#hero" class="brand">
                 <div class="brand-badge">MD</div>
-                <div class="brand-name">ENG / MOHAMED DABAH</div>
+                <div class="brand-name" id="brand-name-text">ENG / MOHAMED DABAH</div>
             </a>
 
             <ul class="nav-links" id="nav-links">
-                <li><a href="#hero" class="nav-link">الرئيسية</a></li>
-                <li><a href="#connect" class="nav-link">تواصل و QR</a></li>
-                <li><a href="#projects" class="nav-link">المشاريع</a></li>
-                <li><a href="#certificates" class="nav-link">الشهادات والاعتمادات</a></li>
-                <li><a href="#skills" class="nav-link">التقنيات</a></li>
-                <li><a href="#contact" class="nav-link">راسلني</a></li>
+                <li><a href="#hero" class="nav-link" id="nav-link-home">الرئيسية</a></li>
+                <li><a href="#connect" class="nav-link" id="nav-link-connect">تواصل و QR</a></li>
+                <li><a href="#projects" class="nav-link" id="nav-link-projects">المشاريع</a></li>
+                <li><a href="#certificates" class="nav-link" id="nav-link-certs">الشهادات والاعتمادات</a></li>
+                <li><a href="#skills" class="nav-link" id="nav-link-skills">التقنيات</a></li>
+                <li><a href="#contact" class="nav-link" id="nav-link-contact">راسلني</a></li>
             </ul>
+
+            <button class="lang-switcher-pill" onclick="toggleLanguage()" aria-label="Toggle Language" title="تغيير اللغة / Switch Language">
+                <span id="lang-btn-text">English 🇬🇧</span>
+            </button>
 
             <a href="https://wa.me/201095744676" target="_blank" class="nav-cta">
                 <i data-lucide="message-circle"></i>
-                <span>واتساب مباشر</span>
+                <span id="nav-cta-text">واتساب مباشر</span>
             </a>
 
             <button class="mobile-toggle" id="mobile-menu-toggle" onclick="toggleMobileNav(event)" aria-label="Toggle Navigation">
@@ -83,7 +87,8 @@
 
     <!-- Scripts -->
     <script src="/static/js/three_core.js"></script>
-    <script src="/static/js/interactions.js?v=3.5"></script>
+    <script src="/static/js/interactions.js?v=7.0"></script>
+    <script src="/static/js/i18n.js?v=7.0"></script>
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
