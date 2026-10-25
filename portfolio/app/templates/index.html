@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- 1. Hero Section -->
+<section id="hero" class="hero-section">
+    <div class="container">
+        <div class="hero-grid">
+            <!-- Left Info -->
+            <div class="hero-text-content">
+                <div class="status-pill">
+                    <span class="pulse-dot"></span>
+                    <span>{{ profile.status }}</span>
+                </div>
+
+                <h1 class="hero-title">
+                    <span class="gradient-text">{{ profile.name }}</span>
+                </h1>
+
+                <div class="hero-subtitle">
+                    {{ profile.title }}
+                </div>
+
+                <p class="hero-bio">
+                    {{ profile.bio }}
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#projects" class="btn-cyber btn-primary">
+                        <span>معرض المشاريع</span>
+                        <i data-lucide="arrow-down-left"></i>
+                    </a>
+                    <a href="https://wa.me/20109574467" target="_blank" class="btn-cyber btn-secondary">
+                        <i data-lucide="message-circle" style="color: #25D366;"></i>
+                        <span>محادثة واتساب سريعة</span>
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <h3>{{ profile.experience_years }}</h3>
+                        <p>سنوات خبرة</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>{{ profile.completed_projects }}</h3>
+                        <p>مشروع منجز</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>{{ profile.happy_clients }}</h3>
+                        <p>دقة واحترافية</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Profile 3D Card -->
+            <div class="hero-visual">
+                <div class="profile-card-3d tilt-card">
+                    <div class="profile-image-wrap">
+                        <img src="/static/images/profile.jpg" alt="{{ profile.name }}">
+                        <div class="glare-effect"></div>
+                    </div>
+                    <div class="profile-badge-overlay">
+                        <div>
+                            <h4>{{ profile.short_name }}</h4>
+                            <span>Computer Engineer 💻</span>
+                        </div>
+                        <i data-lucide="sparkles" style="color: var(--neon-cyan);"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. Connect & QR Hub Section -->
+<section id="connect" class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Direct Connections & Quick QR</span>
+            <h2 class="section-title">قنوات التواصل وأكواد الـ QR السريعة</h2>
+            <p class="section-desc">امسح كود الـ QR بكاميرا هاتفك للوصول المباشر والفوري، أو اضغط على الزر لفتح الرابط في ثانية واحدة.</p>
+        </div>
+
+        <div class="social-grid">
+            {% for channel in social_channels %}
+            <div class="social-card glass-panel tilt-card">
+                <div class="glare-effect"></div>
+                <div class="social-header">
+                    <div class="social-icon-box" style="background: {{ channel.color }};">
+                        <i data-lucide="{{ channel.icon }}"></i>
+                    </div>
+                    <span class="social-badge">{{ channel.badge }}</span>
+                </div>
+
+                <!-- QR Container with viewfinder brackets -->
+                <div class="qr-container qr-viewfinder">
+                    <img src="/static/images/qr/{{ channel.qr_file }}" alt="{{ channel.name }} QR Code">
+                </div>
+
+                <h3 class="social-title">{{ channel.title }}</h3>
+                <p class="social-handle">{{ channel.handle }}</p>
+
+                <div class="social-actions">
+                    <a href="{{ channel.url }}" target="_blank" class="btn-open-channel">
+                        <span>فتح الرابط</span>
+                        <i data-lucide="external-link"></i>
+                    </a>
+                    <button class="btn-zoom-qr" data-qr="/static/images/qr/{{ channel.qr_file }}" data-title="{{ channel.title }}" data-link="{{ channel.url }}" title="تكبير الـ QR">
+                        <i data-lucide="maximize-2"></i>
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- 3. Projects Showcase -->
+<section id="projects" class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Featured Works & Systems</span>
+            <h2 class="section-title">المشاريع البارزة وحلول الذكاء الاصطناعي</h2>
+            <p class="section-desc">نماذج من الأنظمة البرمجية المتقدمة، شات بوتات الواتساب، والواجهات ثلاثية الأبعاد.</p>
+        </div>
+
+        <div class="projects-filter">
+            <button class="filter-btn active" data-filter="all">جميع المشاريع</button>
+            <button class="filter-btn" data-filter="AI & Automation">AI & WhatsApp</button>
+            <button class="filter-btn" data-filter="AI & LLMs">Multi-Agent AI</button>
+            <button class="filter-btn" data-filter="3D & Frontend">3D Web</button>
+            <button class="filter-btn" data-filter="Computer Vision">Computer Vision</button>
+        </div>
+
+        <div class="projects-grid">
+            {% for project in projects %}
+            <div class="project-card glass-panel tilt-card" data-category="{{ project.category }}">
+                <div class="glare-effect"></div>
+                <div>
+                    <span class="project-tag-badge">{{ project.category }}</span>
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <h4 class="project-arabic-title">{{ project.arabic_title }}</h4>
+                    <p class="project-desc">{{ project.description }}</p>
+
+                    <ul class="project-highlights">
+                        {% for highlight in project.highlights %}
+                        <li>{{ highlight }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="tech-stack-pills">
+                    {% for tech in project.technologies %}
+                    <span class="tech-pill">{{ tech }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- 4. Skills & Architecture -->
+<section id="skills" class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Tech Stack & Mastery</span>
+            <h2 class="section-title">المهارات التقنية والمعمارية البرمجية</h2>
+            <p class="section-desc">التقنيات والأدوات التي أعتمد عليها في بناء البرمجيات عالية الكفاءة.</p>
+        </div>
+
+        <div class="skills-grid">
+            {% for cat in skills_categories %}
+            <div class="skill-category-card glass-panel tilt-card">
+                <div class="glare-effect"></div>
+                <h3 class="skill-cat-title">{{ cat.arabic_name }}</h3>
+                <div class="skill-cat-sub">{{ cat.name }}</div>
+
+                <div class="skill-tags">
+                    {% for skill in cat.skills %}
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>{{ skill }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- 5. Contact Section -->
+<section id="contact" class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Get In Touch</span>
+            <h2 class="section-title">ابدأ مشروعك القادم معي</h2>
+            <p class="section-desc">هل لديك فكرة أو نظام ترغب في بنائه بأحدث تقنيات الذكاء الاصطناعي؟ لا تتردد في مراسلتي.</p>
+        </div>
+
+        <div class="contact-grid">
+            <!-- Direct Contacts -->
+            <div class="contact-info-panel glass-panel">
+                <div>
+                    <h3 style="font-size: 1.6rem; color: #fff; margin-bottom: 25px;">معلومات التواصل المباشرة</h3>
+
+                    <div class="contact-direct-item">
+                        <div class="contact-direct-icon">
+                            <i data-lucide="phone-call"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.82rem; color: var(--text-muted);">رقم الهاتف</div>
+                            <a href="tel:{{ profile.phone }}" style="font-size: 1.1rem; color: #fff; text-decoration: none; font-weight: 700; direction: ltr; display: inline-block;">{{ profile.phone }}</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-direct-item">
+                        <div class="contact-direct-icon" style="background: rgba(37, 211, 102, 0.1); border-color: rgba(37, 211, 102, 0.3); color: #25D366;">
+                            <i data-lucide="message-square"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.82rem; color: var(--text-muted);">واتساب للأعمال</div>
+                            <a href="https://wa.me/20109574467" target="_blank" style="font-size: 1.1rem; color: #25D366; text-decoration: none; font-weight: 700;">دردشة فورية الآن</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-direct-item">
+                        <div class="contact-direct-icon" style="background: rgba(24, 119, 242, 0.1); border-color: rgba(24, 119, 242, 0.3); color: #1877F2;">
+                            <i data-lucide="facebook"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.82rem; color: var(--text-muted);">فيسبوك</div>
+                            <a href="https://www.facebook.com/share/1HBcw7nEo6/" target="_blank" style="font-size: 1.1rem; color: #1877F2; text-decoration: none; font-weight: 700;">زيارة الصفحة</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-direct-item">
+                        <div class="contact-direct-icon" style="background: rgba(10, 102, 194, 0.1); border-color: rgba(10, 102, 194, 0.3); color: #0A66C2;">
+                            <i data-lucide="linkedin"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.82rem; color: var(--text-muted);">لينكد إن</div>
+                            <a href="https://www.linkedin.com/in/mohamed-mustafa-8a9042445" target="_blank" style="font-size: 1.1rem; color: #0A66C2; text-decoration: none; font-weight: 700;">الملف المهني</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="padding-top: 20px; border-top: 1px solid var(--border-glass);">
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">📍 {{ profile.location }} | جاهز للعمل مع الشركات والعملاء حول العالم عن بُعد (Remote).</p>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form-panel glass-panel">
+                <h3 style="font-size: 1.6rem; color: #fff; margin-bottom: 20px;">أرسل رسالة سريعة</h3>
+                
+                <div id="form-response" class="form-alert"></div>
+
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label class="form-label">الاسم بالكامل</label>
+                        <input type="text" name="name" class="form-input" placeholder="اكتب اسمك هنا..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">البريد الإلكتروني</label>
+                        <input type="email" name="email" class="form-input" placeholder="name@example.com" required style="direction: ltr; text-align: left;">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">رقم الهاتف / الواتساب (اختياري)</label>
+                        <input type="tel" name="phone" class="form-input" placeholder="+20..." style="direction: ltr; text-align: left;">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">تفاصيل الرسالة أو المشروع</label>
+                        <textarea name="message" class="form-textarea" placeholder="أخبرني عن فكرة مشروعك أو أي استفسار لديك..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-cyber btn-primary" style="width: 100%; justify-content: center;">
+                        <span>إرسال الرسالة الآن</span>
+                        <i data-lucide="send"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
