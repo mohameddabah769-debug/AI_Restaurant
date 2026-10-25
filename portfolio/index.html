@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENG / MOHAMED DABAH | Computer Engineer 💻 | AI &amp; Software Systems</title>
+    <meta name="description" content="Computer Engineer specializing in AI Systems, Intelligent Automation &amp; 3D Web - مهندس حاسبات وبرمجيات (Computer Engineer) متخصص في بناء الأنظمة الذكية المستقلة (AI Agents)، روبوتات الأعمال وأتمتة الواتساب، وتطوير تطبيقات الويب ثلاثية الأبعاد الفاخرة بأعلى معايير السرعة والأداء.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./static/css/style.css">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <!-- Background Dynamic 3D Canvas -->
+    <div id="webgl-canvas-container"></div>
+    <div class="bg-glow-1"></div>
+    <div class="bg-glow-2"></div>
+    <div class="cyber-noise"></div>
+
+    <!-- Main Navigation Bar -->
+    <header>
+        <nav class="navbar glass-panel">
+            <a href="#hero" class="brand">
+                <div class="brand-badge">MD</div>
+                <div class="brand-name">MOHAMED DABAH</div>
+            </a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#hero" class="nav-link">الرئيسية</a></li>
+                <li><a href="#connect" class="nav-link">تواصل و QR</a></li>
+                <li><a href="#projects" class="nav-link">المشاريع</a></li>
+                <li><a href="#skills" class="nav-link">التقنيات</a></li>
+                <li><a href="#contact" class="nav-link">راسلني</a></li>
+            </ul>
+
+            <a href="https://wa.me/201095744676" target="_blank" class="nav-cta">
+                <i data-lucide="message-circle"></i>
+                <span>واتساب مباشر</span>
+            </a>
+
+            <button class="mobile-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation">
+                <i data-lucide="menu"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Content Block -->
+    <main>
+        
+<!-- 1. Hero Section -->
+<section id="hero" class="hero-section">
+    <div class="container">
+        <div class="hero-grid">
+            <!-- Left Info -->
+            <div class="hero-text-content">
+                <div class="status-pill">
+                    <span class="pulse-dot"></span>
+                    <span>Available for High-Impact Projects</span>
+                </div>
+
+                <h1 class="hero-title">
+                    <span class="gradient-text">ENG / MOHAMED DABAH</span>
+                </h1>
+
+                <div class="hero-subtitle">
+                    Computer Engineer 💻 | AI &amp; Software Systems
+                </div>
+
+                <p class="hero-bio">
+                    مهندس حاسبات وبرمجيات (Computer Engineer) متخصص في بناء الأنظمة الذكية المستقلة (AI Agents)، روبوتات الأعمال وأتمتة الواتساب، وتطوير تطبيقات الويب ثلاثية الأبعاد الفاخرة بأعلى معايير السرعة والأداء.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#projects" class="btn-cyber btn-primary">
+                        <span>معرض المشاريع</span>
+                        <i data-lucide="arrow-down-left"></i>
+                    </a>
+                    <a href="https://wa.me/201095744676" target="_blank" class="btn-cyber btn-secondary">
+                        <i data-lucide="message-circle" style="color: #25D366;"></i>
+                        <span>محادثة واتساب سريعة</span>
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <h3>3+</h3>
+                        <p>سنوات خبرة</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>25+</h3>
+                        <p>مشروع منجز</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>100%</h3>
+                        <p>دقة واحترافية</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Profile 3D Card -->
+            <div class="hero-visual">
+                <div class="profile-card-3d tilt-card">
+                    <div class="profile-image-wrap">
+                        <img src="./static/images/profile.jpg" alt="ENG / MOHAMED DABAH">
+                        <div class="glare-effect"></div>
+                    </div>
+                    <div class="profile-badge-overlay">
+                        <div>
+                            <h4>Mohamed Dabah</h4>
+                            <span>Computer Engineer 💻</span>
+                        </div>
+                        <i data-lucide="sparkles" style="color: var(--neon-cyan);"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. Connect & QR Hub Section -->
+<section id="connect" class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Direct Connections & Quick QR</span>
+            <h2 class="section-title">قنوات التواصل وأكواد الـ QR السريعة</h2>
+            <p class="section-desc">امسح كود الـ QR بكاميرا هاتفك للوصول المباشر والفوري، أو اضغط على الزر لفتح الرابط في ثانية واحدة.</p>
+        </div>
+
+        <div class="social-grid">
+            
+            <div class="social-card glass-panel tilt-card">
+                <div class="glare-effect"></div>
+                <div class="social-header">
+                    <div class="social-icon-box" style="background: #25D366;">
+                        <i data-lucide="message-circle"></i>
+                    </div>
+                    <span class="social-badge">Direct Chat</span>
+                </div>
+
+                <!-- QR Container with viewfinder brackets -->
+                <div class="qr-container qr-viewfinder">
+                    <img src="./static/images/qr/qr_whatsapp.png" alt="WhatsApp QR Code">
+                </div>
+
+                <h3 class="social-title">محادثة فورية عبر واتساب</h3>
+                <p class="social-handle">+20 109 574 4676</p>
+
+                <div class="social-actions">
+                    <a href="https://wa.me/201095744676?text=مرحباً%20بشمهندس%20محمد،%20اطلعت%20على%20أعمالك%20وأود%20التواصل%20معك" target="_blank" class="btn-open-channel">
+                        <span>فتح الرابط</span>
+                        <i data-lucide="external-link"></i>
+                    </a>
+                    <button class="btn-zoom-qr" data-qr="./static/images/qr/qr_whatsapp.png" data-title="محادثة فورية عبر واتساب" data-link="https://wa.me/201095744676?text=مرحباً%20بشمهندس%20محمد،%20اطلعت%20على%20أعمالك%20وأود%20التواصل%20معك" title="تكبير الـ QR">
+                        <i data-lucide="maximize-2"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="social-card glass-panel tilt-card">
+                <div class="glare-effect"></div>
+                <div class="social-header">
+                    <div class="social-icon-box" style="background: #1877F2;">
+                        <i data-lucide="facebook"></i>
+                    </div>
+                    <span class="social-badge">Official Profile</span>
+                </div>
+
+                <!-- QR Container with viewfinder brackets -->
+                <div class="qr-container qr-viewfinder">
+                    <img src="./static/images/qr/qr_facebook.png" alt="Facebook QR Code">
+                </div>
+
+                <h3 class="social-title">الصفحة الشخصية على فيسبوك</h3>
+                <p class="social-handle">Mohamed Dabah</p>
+
+                <div class="social-actions">
+                    <a href="https://www.facebook.com/share/1HBcw7nEo6/" target="_blank" class="btn-open-channel">
+                        <span>فتح الرابط</span>
+                        <i data-lucide="external-link"></i>
+                    </a>
+                    <button class="btn-zoom-qr" data-qr="./static/images/qr/qr_facebook.png" data-title="الصفحة الشخصية على فيسبوك" data-link="https://www.facebook.com/share/1HBcw7nEo6/" title="تكبير الـ QR">
+                        <i data-lucide="maximize-2"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="social-card glass-panel tilt-card">
+                <div class="glare-effect"></div>
+                <div class="social-header">
+                    <div class="social-icon-box" style="background: #0A66C2;">
+                        <i data-lucide="linkedin"></i>
+                    </div>
+                    <span class="social-badge">Professional</span>
+                </div>
+
+                <!-- QR Container with viewfinder brackets -->
+                <div class="qr-container qr-viewfinder">
+                    <img src="./static/images/qr/qr_linkedin.png" alt="LinkedIn QR Code">
+                </div>
+
+                <h3 class="social-title">الملف المهني على لينكد إن</h3>
+                <p class="social-handle">mohamed-mustafa-8a9042445</p>
+
+                <div class="social-actions">
+                    <a href="https://www.linkedin.com/in/mohamed-mustafa-8a9042445?utm_source=share_via&amp;utm_content=profile&amp;utm_medium=member_android" target="_blank" class="btn-open-channel">
+                        <span>فتح الرابط</span>
+                        <i data-lucide="external-link"></i>
+                    </a>
+                    <button class="btn-zoom-qr" data-qr="./static/images/qr/qr_linkedin.png" data-title="الملف المهني على لينكد إن" data-link="https://www.linkedin.com/in/mohamed-mustafa-8a9042445?utm_source=share_via&amp;utm_content=profile&amp;utm_medium=member_android" title="تكبير الـ QR">
+                        <i data-lucide="maximize-2"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="social-card glass-panel tilt-card">
+                <div class="glare-effect"></div>
+                <div class="social-header">
+                    <div class="social-icon-box" style="background: #E4405F;">
+                        <i data-lucide="instagram"></i>
+                    </div>
+                    <span class="social-badge">Connect</span>
+                </div>
+
+                <!-- QR Container with viewfinder brackets -->
+                <div class="qr-container qr-viewfinder">
+                    <img src="./static/images/qr/qr_instagram.png" alt="Instagram QR Code">
+                </div>
+
+                <h3 class="social-title">حساب إنستغرام</h3>
+                <p class="social-handle">@deboo__1</p>
+
+                <div class="social-actions">
+                    <a href="https://www.instagram.com/deboo__1?mdxt=MjRpZnlwYmRieml3" target="_blank" class="btn-open-channel">
+                        <span>فتح الرابط</span>
+                        <i data-lucide="external-link"></i>
+                    </a>
+                    <button class="btn-zoom-qr" data-qr="./static/images/qr/qr_instagram.png" data-title="حساب إنستغرام" data-link="https://www.instagram.com/deboo__1?mdxt=MjRpZnlwYmRieml3" title="تكبير الـ QR">
+                        <i data-lucide="maximize-2"></i>
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- 3. Projects Showcase -->
+<section id="projects" class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Featured Works & Systems</span>
+            <h2 class="section-title">المشاريع البارزة وحلول الذكاء الاصطناعي</h2>
+            <p class="section-desc">نماذج من الأنظمة البرمجية المتقدمة، شات بوتات الواتساب، والواجهات ثلاثية الأبعاد.</p>
+        </div>
+
+        <div class="projects-filter">
+            <button class="filter-btn active" data-filter="all">جميع المشاريع</button>
+            <button class="filter-btn" data-filter="AI & Automation">AI & WhatsApp</button>
+            <button class="filter-btn" data-filter="AI & LLMs">Multi-Agent AI</button>
+            <button class="filter-btn" data-filter="3D & Frontend">3D Web</button>
+            <button class="filter-btn" data-filter="Computer Vision">Computer Vision</button>
+        </div>
+
+        <div class="projects-grid">
+            
+            <div class="project-card glass-panel tilt-card" data-category="AI &amp; Automation">
+                <div class="glare-effect"></div>
+                <div>
+                    <span class="project-tag-badge">AI &amp; Automation</span>
+                    <h3 class="project-title">AI Restaurant &amp; WhatsApp Bot</h3>
+                    <h4 class="project-arabic-title">نظام المطعم الذكي وروبوت الواتساب التفاعلي</h4>
+                    <p class="project-desc">منظومة متطورة مدعومة بالذكاء الاصطناعي لأتمتة طلبات المطاعم وإدارة المنيو والتوصيل بالكامل عبر واتساب مع واجهة لوحة تحكم تفاعلية.</p>
+
+                    <ul class="project-highlights">
+                        
+                        <li>معالجة لغة طبيعية لفهم طلبات العملاء بالعامية المصرية</li>
+                        
+                        <li>سيرفر FastAPI فائق السرعة مع قاعدة بيانات للطلبات</li>
+                        
+                        <li>ربط مباشر مع WhatsApp Cloud / Bridge</li>
+                        
+                        <li>لوحة تحكم حية لمتابعة الإحصائيات والمبيعات</li>
+                        
+                    </ul>
+                </div>
+
+                <div class="tech-stack-pills">
+                    
+                    <span class="tech-pill">Python</span>
+                    
+                    <span class="tech-pill">FastAPI</span>
+                    
+                    <span class="tech-pill">Generative AI</span>
+                    
+                    <span class="tech-pill">WhatsApp API</span>
+                    
+                    <span class="tech-pill">SQLite/Postgres</span>
+                    
+                </div>
+            </div>
+            
+            <div class="project-card glass-panel tilt-card" data-category="AI &amp; LLMs">
+                <div class="glare-effect"></div>
+                <div>
+                    <span class="project-tag-badge">AI &amp; LLMs</span>
+                    <h3 class="project-title">Autonomous Multi-Agent AI Engine</h3>
+                    <h4 class="project-arabic-title">محرك عملاء الذكاء الاصطناعي المستقلة</h4>
+                    <p class="project-desc">نظام متعدد الوكلاء (Agents) يقوم بتحليل المهام وتوزيعها ذاتياً واتخاذ القرارات الذكية للأعمال المعقدة بدون تدخل بشري.</p>
+
+                    <ul class="project-highlights">
+                        
+                        <li>وكلاء تفاعليون للبحث والتنفيذ والتحقق</li>
+                        
+                        <li>تكامل مع نماذج الذكاء الاصطناعي الأحدث</li>
+                        
+                        <li>معالجة متزامنة غير متزامنة Async Pipeline</li>
+                        
+                    </ul>
+                </div>
+
+                <div class="tech-stack-pills">
+                    
+                    <span class="tech-pill">Python</span>
+                    
+                    <span class="tech-pill">LangChain</span>
+                    
+                    <span class="tech-pill">OpenAI / Gemini</span>
+                    
+                    <span class="tech-pill">Vector DB</span>
+                    
+                    <span class="tech-pill">AsyncIO</span>
+                    
+                </div>
+            </div>
+            
+            <div class="project-card glass-panel tilt-card" data-category="3D &amp; Frontend">
+                <div class="glare-effect"></div>
+                <div>
+                    <span class="project-tag-badge">3D &amp; Frontend</span>
+                    <h3 class="project-title">Immersive 3D Web &amp; Visualizer</h3>
+                    <h4 class="project-arabic-title">تطبيقات الويب التفاعلية ثلاثية الأبعاد</h4>
+                    <p class="project-desc">واجهات وتجارب رقمية سينمائية تعتمد على Three.js و WebGL تقدم مجسمات 3D تفاعلية تنبض بالحياة مع تفاعل الماوس واللمس.</p>
+
+                    <ul class="project-highlights">
+                        
+                        <li>محرك جرافيكس خفيف الوزن Three.js</li>
+                        
+                        <li>مؤثرات Glassmorphism وإضاءات نيون ديناميكية</li>
+                        
+                        <li>أداء 60+ FPS على الموبايل وأجهزة سطح المكتب</li>
+                        
+                    </ul>
+                </div>
+
+                <div class="tech-stack-pills">
+                    
+                    <span class="tech-pill">Three.js</span>
+                    
+                    <span class="tech-pill">WebGL</span>
+                    
+                    <span class="tech-pill">Modern JavaScript</span>
+                    
+                    <span class="tech-pill">Tailwind CSS</span>
+                    
+                </div>
+            </div>
+            
+            <div class="project-card glass-panel tilt-card" data-category="Computer Vision">
+                <div class="glare-effect"></div>
+                <div>
+                    <span class="project-tag-badge">Computer Vision</span>
+                    <h3 class="project-title">Smart Computer Vision Analytics</h3>
+                    <h4 class="project-arabic-title">نظام الرؤية الحاسوبية والتحليل البصري الذكي</h4>
+                    <p class="project-desc">حلول متقدمة للتعرف على الأشخاص والوجوه وتتبع العناصر واستخراج البيانات في الزمن الحقيقي من كاميرات المراقبة والفيديو.</p>
+
+                    <ul class="project-highlights">
+                        
+                        <li>اكتشاف وتتبع دقيق للوجوه والأنماط</li>
+                        
+                        <li>معالجة الفيديو Real-time Video Stream</li>
+                        
+                        <li>تنبيهات فورية وتحليلات إحصائية</li>
+                        
+                    </ul>
+                </div>
+
+                <div class="tech-stack-pills">
+                    
+                    <span class="tech-pill">Python</span>
+                    
+                    <span class="tech-pill">OpenCV</span>
+                    
+                    <span class="tech-pill">PyTorch</span>
+                    
+                    <span class="tech-pill">YOLOv8</span>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- 4. Skills & Architecture -->
+<section id="skills" class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Tech Stack & Mastery</span>
+            <h2 class="section-title">المهارات التقنية والمعمارية البرمجية</h2>
+            <p class="section-desc">التقنيات والأدوات التي أعتمد عليها في بناء البرمجيات عالية الكفاءة.</p>
+        </div>
+
+        <div class="skills-grid">
+            
+            <div class="skill-category-card glass-panel tilt-card">
+                <div class="glare-effect"></div>
+                <h3 class="skill-cat-title">الذكاء الاصطناعي والعملاء الأذكياء</h3>
+                <div class="skill-cat-sub">Artificial Intelligence &amp; Agents</div>
+
+                <div class="skill-tags">
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>LLMs &amp; Prompt Engineering</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>AI Autonomous Agents</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>LangChain / AI Pipelines</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>Computer Vision (OpenCV)</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>Conversational AI &amp; NLP</span>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="skill-category-card glass-panel tilt-card">
+                <div class="glare-effect"></div>
+                <h3 class="skill-cat-title">الأنظمة الخلفية وقواعد البيانات</h3>
+                <div class="skill-cat-sub">Backend &amp; System Architecture</div>
+
+                <div class="skill-tags">
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>Python (Expert)</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>FastAPI &amp; High-Speed APIs</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>Flask &amp; Django</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>PostgreSQL &amp; SQLite</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>WebSockets &amp; Async Systems</span>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="skill-category-card glass-panel tilt-card">
+                <div class="glare-effect"></div>
+                <h3 class="skill-cat-title">الواجهات التفاعلية والـ 3D</h3>
+                <div class="skill-cat-sub">3D &amp; Modern Frontend</div>
+
+                <div class="skill-tags">
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>Three.js &amp; WebGL</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>Interactive 3D Canvases</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>Glassmorphism &amp; Cyber Design</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>Responsive Web Apps</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>Dynamic Animations</span>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="skill-category-card glass-panel tilt-card">
+                <div class="glare-effect"></div>
+                <h3 class="skill-cat-title">الأتمتة والربط السحابي</h3>
+                <div class="skill-cat-sub">Automation &amp; Integration</div>
+
+                <div class="skill-tags">
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>WhatsApp Business Automation</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>REST APIs &amp; Webhooks</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>Docker &amp; Deployment</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>Git &amp; CI/CD</span>
+                    </div>
+                    
+                    <div class="skill-tag-item">
+                        <i data-lucide="check"></i>
+                        <span>Third-party Integrations</span>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- 5. Contact Section -->
+<section id="contact" class="section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Get In Touch</span>
+            <h2 class="section-title">ابدأ مشروعك القادم معي</h2>
+            <p class="section-desc">هل لديك فكرة أو نظام ترغب في بنائه بأحدث تقنيات الذكاء الاصطناعي؟ لا تتردد في مراسلتي.</p>
+        </div>
+
+        <div class="contact-grid">
+            <!-- Direct Contacts -->
+            <div class="contact-info-panel glass-panel">
+                <div>
+                    <h3 style="font-size: 1.6rem; color: #fff; margin-bottom: 25px;">معلومات التواصل المباشرة</h3>
+
+                    <div class="contact-direct-item">
+                        <div class="contact-direct-icon">
+                            <i data-lucide="phone-call"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.82rem; color: var(--text-muted);">رقم الهاتف</div>
+                            <a href="tel:+2010957446766" style="font-size: 1.1rem; color: #fff; text-decoration: none; font-weight: 700; direction: ltr; display: inline-block;">+2010957446766</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-direct-item">
+                        <div class="contact-direct-icon" style="background: rgba(37, 211, 102, 0.1); border-color: rgba(37, 211, 102, 0.3); color: #25D366;">
+                            <i data-lucide="message-square"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.82rem; color: var(--text-muted);">واتساب للأعمال</div>
+                            <a href="https://wa.me/201095744676" target="_blank" style="font-size: 1.1rem; color: #25D366; text-decoration: none; font-weight: 700;">دردشة فورية الآن</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-direct-item">
+                        <div class="contact-direct-icon" style="background: rgba(24, 119, 242, 0.1); border-color: rgba(24, 119, 242, 0.3); color: #1877F2;">
+                            <i data-lucide="facebook"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.82rem; color: var(--text-muted);">فيسبوك</div>
+                            <a href="https://www.facebook.com/share/1HBcw7nEo6/" target="_blank" style="font-size: 1.1rem; color: #1877F2; text-decoration: none; font-weight: 700;">زيارة الصفحة</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-direct-item">
+                        <div class="contact-direct-icon" style="background: rgba(10, 102, 194, 0.1); border-color: rgba(10, 102, 194, 0.3); color: #0A66C2;">
+                            <i data-lucide="linkedin"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.82rem; color: var(--text-muted);">لينكد إن</div>
+                            <a href="https://www.linkedin.com/in/mohamed-mustafa-8a9042445" target="_blank" style="font-size: 1.1rem; color: #0A66C2; text-decoration: none; font-weight: 700;">الملف المهني</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="padding-top: 20px; border-top: 1px solid var(--border-glass);">
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">📍 Cairo, Egypt | جاهز للعمل مع الشركات والعملاء حول العالم عن بُعد (Remote).</p>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form-panel glass-panel">
+                <h3 style="font-size: 1.6rem; color: #fff; margin-bottom: 20px;">أرسل رسالة سريعة</h3>
+                
+                <div id="form-response" class="form-alert"></div>
+
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label class="form-label">الاسم بالكامل</label>
+                        <input type="text" name="name" class="form-input" placeholder="اكتب اسمك هنا..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">البريد الإلكتروني</label>
+                        <input type="email" name="email" class="form-input" placeholder="name@example.com" required style="direction: ltr; text-align: left;">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">رقم الهاتف / الواتساب (اختياري)</label>
+                        <input type="tel" name="phone" class="form-input" placeholder="+20..." style="direction: ltr; text-align: left;">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">تفاصيل الرسالة أو المشروع</label>
+                        <textarea name="message" class="form-textarea" placeholder="أخبرني عن فكرة مشروعك أو أي استفسار لديك..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-cyber btn-primary" style="width: 100%; justify-content: center;">
+                        <span>إرسال الرسالة الآن</span>
+                        <i data-lucide="send"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 ENG / MOHAMED DABAH. جميع الحقوق محفوظة | صُمم بشغف ثلاثي الأبعاد وتقنيات الذكاء الاصطناعي الحديثة.</p>
+        </div>
+    </footer>
+
+    <!-- QR Zoom Modal -->
+    <div class="modal-backdrop" id="qr-modal">
+        <div class="modal-content glass-panel">
+            <button class="modal-close-btn" id="close-modal">&times;</button>
+            <h3 id="modal-qr-title" style="color: #fff; font-size: 1.3rem; margin-top: 10px;">QR Code</h3>
+            <div class="modal-qr-preview">
+                <img id="modal-qr-img" src="" alt="QR Preview">
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">امسح الكود بكاميرا هاتفك للوصول المباشر</p>
+            <a id="modal-qr-link" href="#" target="_blank" class="btn-cyber btn-primary" style="justify-content: center; width: 100%;">
+                <span>فتح الرابط مباشرة</span>
+                <i data-lucide="external-link"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./static/js/three_core.js"></script>
+    <script src="./static/js/interactions.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

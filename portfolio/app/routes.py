@@ -25,7 +25,7 @@ templates = Jinja2Templates(directory=str(templates_path))
 MESSAGES_LOG_FILE = BASE_DIR / "messages.json"
 
 # Mohamed's phone configuration
-ADMIN_WHATSAPP_PHONE = "20109574467"
+ADMIN_WHATSAPP_PHONE = "201095744676"
 LOCAL_WHATSAPP_BRIDGE = "http://127.0.0.1:3001/send-message"
 
 # In-Memory Rate Limiting per IP for Contact Form (Max 5 requests per 10 minutes)
@@ -157,7 +157,7 @@ async def contact_form(
     }
     archive_message(msg_record)
 
-    # 4. Dispatch WhatsApp Alert to Mohamed's Phone (+20109574467)
+    # 4. Dispatch WhatsApp Alert to Mohamed's Phone (+201095744676)
     await dispatch_whatsapp_notification(clean_name, clean_email, clean_phone, clean_message)
 
     # 5. Generate direct WhatsApp URL for visitor
