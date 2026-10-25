@@ -195,4 +195,59 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 7. Ultra-Fast Typewriter Effect (Zero Lag)
+    const typeWriterEl = document.getElementById('typewriter-text');
+    if (typeWriterEl) {
+        const phrases = [
+            'Computer Engineer 💻',
+            'AI & Software Systems Specialist ⚡',
+            'Enterprise ERP & Invoices Architect 🏢',
+            'Next-Gen 3D Web & Full-Stack Developer 🚀'
+        ];
+        let pIdx = 0, charIdx = 0, isDeleting = false;
+        
+        function tickTypewriter() {
+            const current = phrases[pIdx];
+            if (isDeleting) {
+                charIdx--;
+                typeWriterEl.textContent = current.substring(0, charIdx);
+            } else {
+                charIdx++;
+                typeWriterEl.textContent = current.substring(0, charIdx);
+            }
+            
+            let speed = isDeleting ? 30 : 65;
+            
+            if (!isDeleting && charIdx === current.length) {
+                speed = 2200; // Pause at end of text
+                isDeleting = true;
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                pIdx = (pIdx + 1) % phrases.length;
+                speed = 400; // Pause before typing next
+            }
+            setTimeout(tickTypewriter, speed);
+        }
+        setTimeout(tickTypewriter, 700);
+    }
+
+    // 8. Native Hardware-Accelerated Scroll Observer (Zero Overhead)
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    if ('IntersectionObserver' in window && revealElements.length > 0) {
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    obs.unobserve(entry.target); // Release memory immediately
+                }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+        
+        revealElements.forEach(el => observer.observe(el));
+    } else {
+        // Fallback for older browsers
+        revealElements.forEach(el => el.classList.add('revealed'));
+    }
+
 });

@@ -1132,3 +1132,97 @@ body {
         color: #00f0ff;
     }
 }
+
+
+/* ========================================================
+   CINEMATIC GPU-ACCELERATED REVEAL ANIMATIONS (ZERO LAG)
+   ======================================================== */
+
+@keyframes heroCascadeIn {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, -26px, 0);
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes heroScaleIn {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 32px, 0) scale(0.92);
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+.hero-anim-1 {
+    animation: heroCascadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+    will-change: transform, opacity;
+}
+
+.hero-anim-2 {
+    animation: heroCascadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
+    will-change: transform, opacity;
+}
+
+.hero-anim-3 {
+    animation: heroCascadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.38s both;
+    will-change: transform, opacity;
+}
+
+.hero-anim-4 {
+    animation: heroCascadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.52s both;
+    will-change: transform, opacity;
+}
+
+.hero-anim-5 {
+    animation: heroCascadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.66s both;
+    will-change: transform, opacity;
+}
+
+.hero-anim-6 {
+    animation: heroCascadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
+    will-change: transform, opacity;
+}
+
+.hero-anim-visual {
+    animation: heroScaleIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+    will-change: transform, opacity;
+}
+
+/* Typing cursor animation */
+.typewriter-cursor {
+    display: inline-block;
+    color: var(--neon-cyan);
+    font-weight: 300;
+    margin-right: 4px;
+    animation: cursorBlink 0.8s infinite;
+}
+
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Native Scroll Reveal */
+.scroll-reveal {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.scroll-reveal.revealed {
+    opacity: 1 !important;
+    transform: translate3d(0, 0, 0) !important;
+}
+
+.stagger-1 { transition-delay: 0.06s; }
+.stagger-2 { transition-delay: 0.12s; }
+.stagger-3 { transition-delay: 0.18s; }
+.stagger-4 { transition-delay: 0.24s; }
