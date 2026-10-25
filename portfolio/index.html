@@ -10,7 +10,7 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="./static/css/style.css">
+    <link rel="stylesheet" href="./static/css/style.css?v=3.5">
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -46,7 +46,7 @@
                 <span>واتساب مباشر</span>
             </a>
 
-            <button class="mobile-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation">
+            <button class="mobile-toggle" id="mobile-menu-toggle" onclick="toggleMobileNav(event)" aria-label="Toggle Navigation">
                 <i data-lucide="menu"></i>
             </button>
         </nav>
@@ -1062,10 +1062,37 @@
 
     <!-- Scripts -->
     <script src="./static/js/three_core.js"></script>
-    <script src="./static/js/interactions.js"></script>
+    <script src="./static/js/interactions.js?v=3.5"></script>
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
+    </script>
+
+    <script>
+    function toggleMobileNav(e) {
+        if (e) e.stopPropagation();
+        var menu = document.getElementById('nav-links');
+        var btn = document.getElementById('mobile-menu-toggle');
+        if (!menu) return;
+        var isActive = menu.classList.contains('active') || menu.style.display === 'flex';
+        if (isActive) {
+            menu.classList.remove('active');
+            menu.style.display = 'none';
+        } else {
+            menu.classList.add('active');
+            menu.style.display = 'flex';
+        }
+    }
+    document.addEventListener('click', function(e) {
+        var menu = document.getElementById('nav-links');
+        var btn = document.getElementById('mobile-menu-toggle');
+        if (menu && menu.classList.contains('active')) {
+            if (!menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
+                menu.classList.remove('active');
+                menu.style.display = 'none';
+            }
+        }
+    });
     </script>
 </body>
 </html>
