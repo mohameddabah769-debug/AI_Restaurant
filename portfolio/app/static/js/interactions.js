@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 4. Contact Form Handling (AJAX)
+        // 4. Contact Form Handling (Fast, Bulletproof & Works on Static + Server)
     const contactForm = document.getElementById('contact-form');
     const formResponse = document.getElementById('form-response');
 
@@ -106,38 +106,53 @@ document.addEventListener('DOMContentLoaded', () => {
             const originalText = submitBtn.innerHTML;
             
             submitBtn.disabled = true;
-            submitBtn.innerHTML = `<span>جاري الإرسال...</span>`;
+            submitBtn.innerHTML = `<span>جاري تجهيز الرسالة...</span>`;
             
             const formData = new FormData(contactForm);
-            
-            try {
-                const res = await fetch('/api/contact', {
-                    method: 'POST',
-                    body: formData
-                });
-                const data = await res.json();
-                
-                if (formResponse) {
-                    formResponse.className = 'form-alert success';
-                    let extraBtn = '';
-                    if (data.whatsapp_url) {
-                        extraBtn = `<div style="margin-top: 12px;"><a href="${data.whatsapp_url}" target="_blank" class="btn-cyber btn-primary" style="padding: 8px 18px; font-size: 0.85rem;"><i data-lucide="message-circle"></i> <span>فتح المحادثة على واتساب الآن</span></a></div>`;
-                    }
-                    formResponse.innerHTML = `<div style="display:flex; align-items:center; gap:8px;"><span>⚡</span> <span>${data.message}</span></div>${extraBtn}`;
-                    formResponse.style.display = 'block';
-                    if (window.lucide) lucide.createIcons();
-                }
-                contactForm.reset();
-            } catch (err) {
-                if (formResponse) {
-                    formResponse.className = 'form-alert error';
-                    formResponse.innerHTML = `عذراً، حدث خطأ أثناء الإرسال. يمكنك مراسلتي مباشرة عبر واتساب!`;
-                    formResponse.style.display = 'block';
-                }
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
+            const name = (formData.get('name') || '').trim();
+            const email = (formData.get('email') || '').trim();
+            const phone = (formData.get('phone') || '').trim();
+            const message = (formData.get('message') || '').trim();
+
+            const waNumber = "201095744676";
+            let waText = `مرحباً بشمهندس محمد، أنا ${name}.\n`;
+            if (phone) waText += `📱 رقم الهاتف: ${phone}\n`;
+            if (email) waText += `📧 البريد: ${email}\n`;
+            waText += `💬 تفاصيل الرسالة:\n"${message}"`;
+            const directWaUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`;
+
+            // If on local server or custom backend, attempt background API call
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                try {
+                    fetch('/api/contact', { method: 'POST', body: formData }).catch(() => {});
+                } catch(e) {}
             }
+
+            // Immediately display success and trigger direct WhatsApp
+            if (formResponse) {
+                formResponse.className = 'form-alert success';
+                formResponse.style.display = 'block';
+                formResponse.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                        <span style="font-size:1.2rem;">✅</span>
+                        <span>شكراً لك يا <strong>${name}</strong>! تم استلام وتجهيز رسالتك بنجاح.</span>
+                    </div>
+                    <div style="margin-top:12px;">
+                        <a href="${directWaUrl}" target="_blank" class="btn-cyber btn-primary" style="width:100%; justify-content:center; padding:12px 20px; font-size:0.92rem; text-decoration:none;">
+                            <i data-lucide="message-circle"></i>
+                            <span>فتح محادثة واتساب وإرسال الرسالة الآن 🚀</span>
+                        </a>
+                    </div>
+                `;
+                if (window.lucide) lucide.createIcons();
+            }
+
+            // Open WhatsApp directly in new tab
+            window.open(directWaUrl, '_blank');
+
+            contactForm.reset();
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
         });
     }
 

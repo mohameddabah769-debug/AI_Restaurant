@@ -109,7 +109,7 @@ async def home_page(request: Request):
 async def contact_form(
     request: Request,
     name: str = Form(...),
-    email: str = Form(...),
+    email: str = Form(""),
     phone: str = Form(""),
     message: str = Form(...)
 ):
