@@ -15,7 +15,7 @@ from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
-from .config import PROFILE, SOCIAL_CHANNELS, PROJECTS, SKILLS_CATEGORIES
+from .config import PROFILE, SOCIAL_CHANNELS, PROJECTS, SKILLS_CATEGORIES, CERTIFICATES
 
 router = APIRouter()
 
@@ -101,6 +101,7 @@ async def home_page(request: Request):
             "social_channels": SOCIAL_CHANNELS,
             "projects": PROJECTS,
             "skills_categories": SKILLS_CATEGORIES,
+            "certificates": CERTIFICATES,
         }
     )
 

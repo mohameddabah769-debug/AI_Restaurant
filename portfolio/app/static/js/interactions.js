@@ -250,4 +250,55 @@ document.addEventListener('DOMContentLoaded', () => {
         revealElements.forEach(el => el.classList.add('revealed'));
     }
 
+
+    // Certificate Lightbox Handler
+    window.openCertModal = function(imgSrc, title, issuer) {
+        var modal = document.getElementById('cert-lightbox-modal');
+        var mImg = document.getElementById('cert-modal-img');
+        var mTitle = document.getElementById('cert-modal-title');
+        var mIssuer = document.getElementById('cert-modal-issuer');
+        var mDl = document.getElementById('cert-modal-download');
+        if (modal && mImg) {
+            mImg.src = imgSrc;
+            if (mTitle) mTitle.textContent = title;
+            if (mIssuer) mIssuer.textContent = issuer;
+            if (mDl) mDl.href = imgSrc;
+            modal.classList.add('active');
+        }
+    };
+
+    window.closeCertModal = function() {
+        var modal = document.getElementById('cert-lightbox-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    var certModalEl = document.getElementById('cert-lightbox-modal');
+    if (certModalEl) {
+        certModalEl.addEventListener('click', function(e) {
+            if (e.target === certModalEl) closeCertModal();
+        });
+    }
+
+    // Certificate Filters
+    var certFilterBtns = document.querySelectorAll('.cert-filter');
+    var certCards = document.querySelectorAll('.cert-card');
+    certFilterBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            certFilterBtns.forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            var filter = btn.getAttribute('data-cert-filter');
+            certCards.forEach(function(card) {
+                var cat = card.getAttribute('data-cert-cat');
+                if (filter === 'all' || cat === filter) {
+                    card.style.display = 'flex';
+                    setTimeout(function() { card.style.opacity = '1'; card.style.transform = 'scale(1)'; }, 40);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.95)';
+                    setTimeout(function() { card.style.display = 'none'; }, 200);
+                }
+            });
+        });
+    });
+
 });

@@ -277,3 +277,55 @@ SKILLS_CATEGORIES = [
         ]
     }
 ]
+
+
+CERTIFICATES = [
+    {
+        "id": "abps-usa",
+        "title": "Diploma in Programming (Java and Python)",
+        "arabic_title": "دبلومة البرمجة الدولية المعتمدة (Java & Python)",
+        "issuer": "American Board of Professional Studies (ABPS - USA)",
+        "issuer_arabic": "البورد الأمريكي للدراسات المهنية (الولايات المتحدة الأمريكية)",
+        "flag": "🇺🇸",
+        "date": "يناير 2026",
+        "grade": "Excellent (امتياز)",
+        "duration": "70 Hours (ساعة تدريبية)",
+        "serial": "0038513",
+        "image": "cert_abps.jpg",
+        "category": "usa",
+        "badge": "اعتماد أمريكي دولي 🇺🇸",
+        "color": "#f59e0b",
+        "verify_url": "http://www.Americanboard-us.com",
+        "address": "30 N Gould St, Sheridan, WY, 82801, USA"
+    },
+    {
+        "id": "python-esh",
+        "title": "Programming Diploma (Python)",
+        "arabic_title": "دبلومة البرمجة المتقدمة بلغة بايثون (Python)",
+        "issuer": "Egyptian Science House (بيت العلم المصري)",
+        "issuer_arabic": "مؤسسة بيت العلم المصري للعلوم والبرمجيات",
+        "flag": "🇪🇬",
+        "date": "يناير 2026",
+        "grade": "Excellent (امتياز)",
+        "duration": "Professional Track",
+        "image": "cert_python.jpg",
+        "category": "python",
+        "badge": "دبلومة بايثون المعتمدة 🐍",
+        "color": "#00f0ff"
+    },
+    {
+        "id": "java-esh",
+        "title": "Programming Diploma (Java)",
+        "arabic_title": "دبلومة البرمجة وهندسة الأنظمة بلغة جافا (Java)",
+        "issuer": "Egyptian Science House (بيت العلم المصري)",
+        "issuer_arabic": "مؤسسة بيت العلم المصري للعلوم والبرمجيات",
+        "flag": "🇪🇬",
+        "date": "يناير 2026",
+        "grade": "Excellent (امتياز)",
+        "duration": "Professional Track",
+        "image": "cert_java.jpg",
+        "category": "java",
+        "badge": "دبلومة جافا المعتمدة ☕",
+        "color": "#ec4899"
+    }
+]
