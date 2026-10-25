@@ -171,15 +171,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. Mobile Menu Toggle
+        // 6. Mobile Menu Toggle
     const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
     const navLinks = document.getElementById('nav-links');
     if (mobileMenuBtn && navLinks) {
-        mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenuBtn.classList.toggle('active');
             navLinks.classList.toggle('active');
         });
+        
         document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => navLinks.classList.remove('active'));
+            link.addEventListener('click', () => {
+                mobileMenuBtn.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mobileMenuBtn.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
         });
     }
 });
