@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ceZar COFFEE | سيزر كوفي - قائمة المشروبات والحلويات</title>
+    <!-- Google Fonts Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-espresso: #2B1810;
+            --primary-dark: #190E09;
+            --cezar-orange: #E85D04;
+            --cezar-gold: #D4A373;
+            --bg-body: #F8F5F0;
+            --card-bg: #FFFFFF;
+            --text-main: #212529;
+            --text-muted: #6C757D;
+            --border-color: #EDE8E1;
+            --shadow-sm: 0 2px 10px rgba(43, 24, 16, 0.05);
+            --shadow-md: 0 6px 20px rgba(43, 24, 16, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding-bottom: 40px;
+        }
+
+        /* Top Brand Header */
+        .brand-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-espresso) 100%);
+            color: white;
+            padding: 24px 18px 20px;
+            text-align: center;
+            border-bottom-left-radius: 28px;
+            border-bottom-right-radius: 28px;
+            box-shadow: 0 6px 24px rgba(25, 14, 9, 0.3);
+            position: relative;
+        }
+
+        .brand-logo-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--cezar-gold);
+            background: white;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+            margin-bottom: 10px;
+        }
+
+        .brand-title {
+            font-size: 25px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            color: #FFFFFF;
+        }
+
+        .brand-title span {
+            color: var(--cezar-orange);
+        }
+
+        .brand-subtitle {
+            font-size: 13px;
+            color: var(--cezar-gold);
+            margin-top: 3px;
+            font-weight: 700;
+        }
+
+        /* Table Badge */
+        .table-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(232, 93, 4, 0.18);
+            border: 1px solid var(--cezar-orange);
+            color: #FFFFFF;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 800;
+            margin-top: 12px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Sticky Search & Category Navigation */
+        .nav-sticky-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(248, 245, 240, 0.96);
+            backdrop-filter: blur(10px);
+            padding: 12px 16px 8px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 42px 12px 16px;
+            border-radius: 20px;
+            border: 1px solid #E2D9CF;
+            background: #FFFFFF;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--cezar-orange);
+            box-shadow: 0 0 0 3px rgba(232, 93, 4, 0.15);
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--cezar-gold);
+            font-size: 16px;
+        }
+
+        .categories-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+
+        .categories-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-tab {
+            white-space: nowrap;
+            padding: 8px 16px;
+            border-radius: 18px;
+            background: #EFE9E0;
+            color: var(--primary-espresso);
+            font-size: 13px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .category-tab.active {
+            background: linear-gradient(135deg, var(--primary-espresso) 0%, var(--primary-dark) 100%);
+            color: #FFFFFF;
+            box-shadow: 0 3px 10px rgba(43, 24, 16, 0.25);
+        }
+
+        /* Container & Menu Sections */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 22px 0 14px;
+            padding-bottom: 6px;
+            border-bottom: 2px dashed var(--cezar-gold);
+        }
+
+        .section-header h2 {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--primary-espresso);
+        }
+
+        .section-header .count-badge {
+            background: var(--cezar-orange);
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .items-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .item-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 15px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .item-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .item-info {
+            flex: 1;
+            padding-left: 14px;
+        }
+
+        .item-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--primary-espresso);
+            line-height: 1.3;
+        }
+
+        .item-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        .item-price-badge {
+            background: linear-gradient(135deg, rgba(232, 93, 4, 0.08) 0%, rgba(212, 163, 115, 0.15) 100%);
+            border: 1.5px solid var(--cezar-orange);
+            color: var(--cezar-orange);
+            padding: 8px 16px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 900;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 2px 6px rgba(232, 93, 4, 0.08);
+        }
+
+        .item-price-badge .currency {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--primary-espresso);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state i {
+            font-size: 40px;
+            color: var(--cezar-gold);
+            margin-bottom: 12px;
+        }
+
+        /* Footer Branding */
+        .brand-footer {
+            text-align: center;
+            padding: 30px 15px 40px;
+            color: #8C827A;
+            font-size: 12px;
+        }
+
+        .dev-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(43, 24, 16, 0.05);
+            padding: 7px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(43, 24, 16, 0.08);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="brand-header">
+        <img src="/static/images/cezar_logo.jpg" alt="ceZar Coffee Logo" class="brand-logo-img" onerror="this.src='https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=150'">
+        <h1 class="brand-title">ce<span>Z</span>ar COFFEE</h1>
+        <p class="brand-subtitle">سيزر كوفي | متعة المذاق الفاخر</p>
+        
+        <div id="tableDisplayWrapper" style="display: none; justify-content: center; margin-top: 6px;">
+            <div class="table-badge">
+                <i class="fa-solid fa-chair" style="color: var(--cezar-orange);"></i>
+                <span id="currentTableDisplay">ترابيزة رقم 1</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sticky Nav & Search -->
+    <div class="nav-sticky-wrapper">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="ابحث عن مشروبك أو حلاك المفضل..." oninput="handleSearch()">
+        </div>
+        <div class="categories-scroll" id="categoriesScroll">
+            <!-- Dynamic Category Pills -->
+        </div>
+    </div>
+
+    <!-- Main Menu Container -->
+    <main class="container" id="menuContainer">
+        <div style="text-align: center; padding: 40px; color: var(--cezar-gold);">
+            <i class="fa-solid fa-mug-hot fa-spin fa-2x"></i>
+            <p style="margin-top: 10px; font-weight: 700;">جاري تحضير قائمة سيزر كوفي...</p>
+        </div>
+    </main>
+
+    <!-- Developer & Engineer Branding Footer -->
+    <footer class="brand-footer">
+        <div class="dev-badge">
+            <i class="fa-solid fa-terminal" style="color: var(--cezar-orange);"></i>
+            <span>تطوير وبرمجة: <strong>م / محمد دباح (Eng. Mohamed Dabah)</strong></span>
+            <span style="color: #bbb;">•</span>
+            <a href="tel:01095744676" style="color: var(--primary-espresso); text-decoration: none; font-weight: 800; direction: ltr;">01095744676</a>
+        </div>
+        <p style="margin-top: 8px; font-size: 11px;">ceZar COFFEE © 2026 • جميع الحقوق محفوظة</p>
+    </footer>
+
+    <script>
+        const FALLBACK_MENU = {"أم على": [{"id": 88, "name": "أم على كلاسيك", "price": 60.0, "description": "طاجن رقاق فاخر بالحليب الساخن والقشطة البلدية"}, {"id": 89, "name": "أم على مكسرات", "price": 75.0, "description": "أم علي غنية بالبندق واللوز والزبيب وجوز الهند"}, {"id": 90, "name": "أم على عسل", "price": 75.0, "description": "أم علي محلاة بعسل النحل الطبيعي والقشطة"}, {"id": 91, "name": "أم على نوتيلا", "price": 75.0, "description": "طاجن أم علي مع طبقة نوتيلا شوكولاتة ذائبة"}, {"id": 92, "name": "أم على لوتس", "price": 80.0, "description": "أم علي مع زبدة لوتس وبسكويت كرانشي"}, {"id": 93, "name": "أم على فواكه", "price": 90.0, "description": "أم علي بالقشطة مع قطع موز وفراولة فريش"}, {"id": 94, "name": "أم على ميكس صوص", "price": 90.0, "description": "ميكس نوتيلا ووايت شوكليت وصوص كراميل"}, {"id": 95, "name": "أم على القيصر", "price": 100.0, "description": "طاجن سيزر الملكي: قشطة، مكسرات، نوتيلا، ولوتس"}], "أيس كريم": [{"id": 102, "name": "اضافة بولة أيس كريم", "price": 25.0, "description": "بولة إضافية من أي نكهة حسب اختيارك"}, {"id": 96, "name": "هاواى", "price": 80.0, "description": "2 بولة مانجو + بولة فانيليا + صوص فراولة فريش"}, {"id": 97, "name": "اسبشيال فانيليا", "price": 85.0, "description": "3 بولات آيس كريم فانيليا مع صوص كراميل دافئ"}, {"id": 98, "name": "بنانا اسبليت", "price": 85.0, "description": "3 بولات آيس كريم على سرير من الموز مع شوكولاتة وكريمة"}, {"id": 99, "name": "بنانا بوت", "price": 85.0, "description": "3 بولات من اختيارك مع موز ومكسرات مقرمشة"}, {"id": 100, "name": "بيرى شوكليت", "price": 90.0, "description": "3 بولات شوكولاتة مع قطع فواكه فريش وصوص بيري"}, {"id": 101, "name": "بيتش بوى", "price": 100.0, "description": "3 بولات فانيليا + مكسرات محمصة + قطع سنيكرز"}], "أيس كوفي": [{"id": 5, "name": "ايس امريكان", "price": 70.0, "description": "إسبريسو دبل شوت مع مياه مثلجة"}, {"id": 1, "name": "ايس لاتيه كلاسيك", "price": 75.0, "description": "إسبريسو غني مع حليب بارد ومكعبات ثلج"}, {"id": 3, "name": "ايس كوفى كلاسيك", "price": 75.0, "description": "قهوة باردة منعشة على أصولها"}, {"id": 4, "name": "ايس كوفى فليفر", "price": 80.0, "description": "بنكهة (كراميل / فانيليا / بندق)"}, {"id": 6, "name": "ايس كراميل ميكاتو", "price": 80.0, "description": "طبقات الحليب البارد مع الإسبريسو وصوص الكراميل الفاخر"}, {"id": 2, "name": "ايس لاتيه فليفر", "price": 85.0, "description": "نكهتك المفضلة (كراميل / فانيليا / بندق)"}, {"id": 7, "name": "موكا (دارك / وايت)", "price": 85.0, "description": "إسبريسو مع الشوكولاتة الداكنة أو البيضاء والحليب المثلج"}, {"id": 8, "name": "ايس فرابتشينو كلاسيك", "price": 90.0, "description": "مشروب القهوة المخفوق مع الثلج والكريمة"}, {"id": 10, "name": "ايس اسبانش لاتيه", "price": 90.0, "description": "إسبريسو سيزر مع الحليب المكثف المحلى الفاخر"}, {"id": 9, "name": "ايس فرابتشينو فليفر", "price": 95.0, "description": "اختيارك من (كراميل / فانيليا / بندق / شوكليت)"}, {"id": 11, "name": "ايس فرابيه", "price": 95.0, "description": "فرابيه مثلج كريمي بنكهة كراميل، فانيليا، بندق، أو شوكليت"}], "الكوفى": [{"id": 123, "name": "اسبريسو سنجل", "price": 35.0, "description": "شوت إسبريسو نقي ومركز"}, {"id": 129, "name": "قهوة تركى سنجل", "price": 35.0, "description": "قهوة تركي ببن سيزر الفاخر والمحبب"}, {"id": 133, "name": "نسكافية بلاك", "price": 40.0, "description": "نسكافيه كلاسيك ساخن وسادة"}, {"id": 130, "name": "قهوة تركى دبل", "price": 50.0, "description": "فنجان قهوة تركي دبل لمزاج عالي"}, {"id": 131, "name": "قهوة فرنساوى", "price": 50.0, "description": "قهوة باللبن المبخر الناعم"}, {"id": 124, "name": "اسبريسو دبل", "price": 55.0, "description": "دبل شوت إسبريسو لتركيز وطاقة أعلى"}, {"id": 132, "name": "قهوة فليفر", "price": 55.0, "description": "قهوة تركي بنكهات (بندق / فانيليا / كراميل)"}, {"id": 134, "name": "نسكافية حليب", "price": 55.0, "description": "نسكافيه ممزوج بالحليب الساخن"}, {"id": 125, "name": "اسبريسو ميكاتو", "price": 60.0, "description": "إسبريسو مع لمسة رغوة حليب ناعمة"}, {"id": 126, "name": "اسبريسو فلات وايت", "price": 60.0, "description": "إسبريسو دبل مع حليب مبخر كريمي"}, {"id": 127, "name": "اسبريسو كراميل ميكاتو", "price": 60.0, "description": "إسبريسو مع حليب وصوص كراميل ذهبي"}, {"id": 128, "name": "اسبريسو كورتادو", "price": 60.0, "description": "إسبريسو مع حليب مبخر بنسب متساوية"}, {"id": 135, "name": "نسكافية فليفر", "price": 60.0, "description": "نسكافيه بحليب ونكهة (فانيليا / كراميل / بندق)"}, {"id": 138, "name": "كابتشينو كلاسيك", "price": 60.0, "description": "كابتشينو إيطالي غني بالرغوة ورشة كاكاو"}, {"id": 141, "name": "امريكان كوفى", "price": 60.0, "description": "قهوة أمريكان ساخنة ومفلترة على أصولها"}, {"id": 136, "name": "لاتيه كلاسيك", "price": 65.0, "description": "قهوة بالحليب ورغوة ناعمة"}, {"id": 139, "name": "كابتشينو فليفر", "price": 65.0, "description": "كابتشينو بنكهة كراميل أو فانيليا أو بندق"}, {"id": 140, "name": "موكا", "price": 65.0, "description": "مزيج الإسبريسو مع الشوكولاتة والحليب الساخن"}, {"id": 137, "name": "لاتيه فليفر", "price": 70.0, "description": "لاتيه ساخن بنكهتك المفضلة"}], "بان كيك": [{"id": 67, "name": "بان كيك نوتيلا (6 قطع)", "price": 30.0, "description": "ميني بان كيك هش ولذيذ مع صوص نوتيلا"}, {"id": 70, "name": "بان كيك لوتس (6 قطع)", "price": 30.0, "description": "مع زبدة لوتس البلجيكية الأصلية"}, {"id": 73, "name": "بان كيك وايت شوكليت (6 قطع)", "price": 30.0, "description": "مع صوص الشوكولاتة البيضاء الناعمة"}, {"id": 76, "name": "بان كيك كراميل (6 قطع)", "price": 30.0, "description": "مع صوص الكراميل التوفي الذهبي"}, {"id": 79, "name": "بان كيك بستاشيو (6 قطع)", "price": 35.0, "description": "مع صوص الفستق الحلبي المقرمش"}, {"id": 82, "name": "بان كيك عسل وقرفة (6 قطع)", "price": 35.0, "description": "عسل نحل طبيعي مع رشة قرفة ناعمة"}, {"id": 85, "name": "بان كيك ميكس صوصات (6 قطع)", "price": 35.0, "description": "اختيارك من ميكس الصوصات المفضلة"}, {"id": 68, "name": "بان كيك نوتيلا (12 قطعة)", "price": 50.0, "description": "12 قطعة ميني بان كيك ساخن مع نوتيلا وفيرة"}, {"id": 71, "name": "بان كيك لوتس (12 قطعة)", "price": 50.0, "description": "12 قطعة مع زبدة لوتس وبسكويت مطحون"}, {"id": 74, "name": "بان كيك وايت شوكليت (12 قطعة)", "price": 50.0, "description": "12 قطعة مع وايت شوكليت"}, {"id": 77, "name": "بان كيك كراميل (12 قطعة)", "price": 50.0, "description": "12 قطعة مع صوص كراميل"}, {"id": 80, "name": "بان كيك بستاشيو (12 قطعة)", "price": 60.0, "description": "12 قطعة بصوص الفستق"}, {"id": 83, "name": "بان كيك عسل وقرفة (12 قطعة)", "price": 60.0, "description": "12 قطعة عسل نحل وقرفة"}, {"id": 86, "name": "بان كيك ميكس صوصات (12 قطعة)", "price": 60.0, "description": "12 قطعة بميكس صوصات نوتيلا ولوتس ووايت"}, {"id": 69, "name": "بان كيك نوتيلا (24 قطعة)", "price": 80.0, "description": "بوكس عائلي 24 قطعة ميني بان كيك غرقان نوتيلا"}, {"id": 72, "name": "بان كيك لوتس (24 قطعة)", "price": 80.0, "description": "بوكس 24 قطعة لعشاق زبدة اللوتس"}, {"id": 75, "name": "بان كيك وايت شوكليت (24 قطعة)", "price": 80.0, "description": "24 قطعة وايت شوكليت"}, {"id": 78, "name": "بان كيك كراميل (24 قطعة)", "price": 80.0, "description": "24 قطعة صوص كراميل"}, {"id": 81, "name": "بان كيك بستاشيو (24 قطعة)", "price": 90.0, "description": "24 قطعة بصوص الفستق الفاخر"}, {"id": 84, "name": "بان كيك عسل وقرفة (24 قطعة)", "price": 90.0, "description": "24 قطعة عسل نحل وقرفة"}, {"id": 87, "name": "بان كيك ميكس صوصات (24 قطعة)", "price": 90.0, "description": "بوكس الميكس الملكي 24 قطعة بجميع الصوصات"}], "شيشة": [{"id": 120, "name": "إضافة ميكس", "price": 10.0, "description": "إضافة نكهة إضافية للحجر"}, {"id": 121, "name": "إضافة فليفر / ايس", "price": 10.0, "description": "إضافة تبريد ثلجي (Ice Tip) أو نكهة فليفر"}, {"id": 122, "name": "لى طبي", "price": 10.0, "description": "خرطوم لي طبي صحي استخدام مرة واحدة"}, {"id": 117, "name": "حجر قص إضافي", "price": 12.0, "description": "تغيير حجر معسل قص إضافي"}, {"id": 116, "name": "شيشة قص حجرين", "price": 25.0, "description": "شيشة معسل سلوم / قص حجرين على أصولها"}, {"id": 118, "name": "شيشة فاخر", "price": 70.0, "description": "معسل فاخر بنكهات التفاحتين، عنب، خوخ، بطيخ"}, {"id": 119, "name": "شيشة فاخر ميكس", "price": 85.0, "description": "ميكس نكهات فاخرة حسب اختيارك"}], "فروت سلات": [{"id": 103, "name": "فروت سلات", "price": 80.0, "description": "تشكيلة فواكه الموسم الطازجة مع عصير طبيعي"}, {"id": 104, "name": "فروت سلات ايس كريم", "price": 90.0, "description": "سلطة فواكه مع بولة آيس كريم فانيليا غنية"}, {"id": 105, "name": "فروت سلات جامبو", "price": 100.0, "description": "طبق حجم عائلي غني بجميع أنواع الفواكه والمكسرات"}, {"id": 106, "name": "فروت سلات القنبلة", "price": 120.0, "description": "قنبلة سيزر: سلطة فواكه + كريم شانتيه + قطع بسبوسة وقشطة"}], "كوكتيل صودا": [{"id": 49, "name": "صن شاين", "price": 65.0, "description": "سفن أب مع نكهات البرتقال والرمان والثلج"}, {"id": 50, "name": "شيرى كولا", "price": 65.0, "description": "كولا منعشة مع سيرب الكريز الكلاسيكي"}, {"id": 51, "name": "موهيتو كلاسيك", "price": 65.0, "description": "ليمون وشرائح نعناع طازجة مع الصودا المثلجة"}, {"id": 52, "name": "موهيتو فليفر", "price": 75.0, "description": "ليمون ونعناع مع اختيارك من (توت / أناناس / خوخ)"}, {"id": 53, "name": "موهيتو بلو", "price": 75.0, "description": "سيرب البلو كوراساو الأزرق مع ليمون ونعناع وصودا"}, {"id": 54, "name": "موهيتو ريد بول كلاسيك", "price": 100.0, "description": "موهيتو طاقة مع كانز ريد بول وليمون ونعناع"}, {"id": 55, "name": "موهيتو ريد بول فليفر", "price": 110.0, "description": "ريد بول مع نكهات (توت / خوخ / جوز هند / أناناس)"}], "مشروبات ساخنة": [{"id": 142, "name": "شاى", "price": 20.0, "description": "شاي مصري بالنعناع أو سادة"}, {"id": 145, "name": "شاى نكهات", "price": 25.0, "description": "شاي بنكهات خوخ / توت / ليمون"}, {"id": 146, "name": "أعشاب", "price": 25.0, "description": "يانسون / كركديه / نعناع / تليو / بابونج"}, {"id": 143, "name": "شاى كرك", "price": 30.0, "description": "شاي هندي مبهر بالحليب والهيل والزعفران"}, {"id": 148, "name": "ليمون عسل", "price": 30.0, "description": "ليمون دافئ محلى بعسل النحل الطبيعي"}, {"id": 144, "name": "شاى حليب", "price": 40.0, "description": "شاي بحليب ساخن كامل الدسم"}, {"id": 147, "name": "ميكس اعشاب", "price": 40.0, "description": "توليفة أعشاب مهدئة ومريحة"}, {"id": 157, "name": "ابل سيدر", "price": 50.0, "description": "عصير تفاح ساخن مع أعواد القرفة والقرنفل"}, {"id": 149, "name": "سحلب مكسرات", "price": 55.0, "description": "سحلب بلبن وقشطة ومكسرات محمصة وقرفة"}, {"id": 151, "name": "سحلب شوكليت", "price": 55.0, "description": "سحلب ساخن مع صوص شوكولاتة فاخر"}, {"id": 152, "name": "هوت شوكليت", "price": 60.0, "description": "شوكولاتة ساخنة غنية وكريمية"}, {"id": 156, "name": "هوت هوهوز", "price": 60.0, "description": "هوهوز ساخن غرقان في الحليب والشوكولاتة"}, {"id": 150, "name": "سحلب فواكه", "price": 65.0, "description": "سحلب ساخن غني بقطع الفواكه الطازجة"}, {"id": 154, "name": "هوت بوريو", "price": 65.0, "description": "بوريو ساخن مع الحليب والشوكولاتة الذائبة"}, {"id": 153, "name": "هوت اوريو", "price": 70.0, "description": "مشروب الأوريو الساخن بالشوكولاتة والكريمة"}, {"id": 155, "name": "هوت كيت كات", "price": 75.0, "description": "شوكولاتة كيت كات المذابة مع الحليب الدافئ"}], "مشروبات غازية": [{"id": 107, "name": "مياة صغيرة", "price": 15.0, "description": "زجاجة مياه معدنية نقية"}, {"id": 108, "name": "كانز (كولا / بيبسى / فانتا)", "price": 30.0, "description": "كانز مثلج منعش"}, {"id": 109, "name": "بيريل", "price": 35.0, "description": "مشروب شعير طبيعي مثلج"}, {"id": 110, "name": "فيورى", "price": 35.0, "description": "مشروب طاقة منعش بنكهات الفواكه"}, {"id": 111, "name": "تويست", "price": 35.0, "description": "مشروب منعش بنكهات الليمون والفواكه"}, {"id": 112, "name": "فيروز", "price": 35.0, "description": "مشروب شعير بالفاكهة (تفاح / أناناس)"}, {"id": 113, "name": "ديو", "price": 35.0, "description": "ماونتن ديو الأصلي المنعش"}, {"id": 114, "name": "شويبس (رمان / اناناس)", "price": 35.0, "description": "شويبس جولد بنكهات منعشة"}, {"id": 115, "name": "ريد بول", "price": 80.0, "description": "مشروب الطاقة العالمي الأصلي"}], "ميكسات فريش": [{"id": 31, "name": "بينك", "price": 80.0, "description": "مانجو طبيعي مع بطيخ أحمر مثلج"}, {"id": 32, "name": "مانجو مينت", "price": 80.0, "description": "مانجو طازج مع لمسة نعناع منعش"}, {"id": 33, "name": "بطيخ مينت", "price": 80.0, "description": "بطيخ فريش مع نعناع بلدي بارد"}, {"id": 34, "name": "فلوريدا", "price": 85.0, "description": "مانجو + فراولة + جوافة طبيعية"}, {"id": 35, "name": "ميامى", "price": 85.0, "description": "مانجو + جوافة + عصير برتقال فريش"}, {"id": 36, "name": "برادايس", "price": 85.0, "description": "مانجو + أناناس + خوخ ناعم"}, {"id": 37, "name": "سندريلا", "price": 85.0, "description": "مانجو + توت بري + فراولة"}, {"id": 38, "name": "ساسو", "price": 85.0, "description": "مانجو + موز بالحليب + أناناس"}, {"id": 39, "name": "منعنع", "price": 85.0, "description": "ليمون فريش + برتقال + أوراق نعناع"}, {"id": 40, "name": "باريس", "price": 85.0, "description": "موز بالحليب الفريش مع صوص شوكولاتة ناعم"}, {"id": 41, "name": "فروت", "price": 85.0, "description": "مانجو + فراولة + موز بالحليب"}, {"id": 42, "name": "مانجو كيوى", "price": 95.0, "description": "مانجو حلو مع كيوي لاذع ومنعش"}, {"id": 43, "name": "كيوى برتقال", "price": 95.0, "description": "فيتامين سي طبيعي فريش 100%"}, {"id": 44, "name": "بريف هارت", "price": 95.0, "description": "بلح طبيعي + موز + حليب جوز الهند"}, {"id": 45, "name": "جلاكسى", "price": 100.0, "description": "مانجو + كيوي + أناناس استوائي"}, {"id": 46, "name": "فول باور", "price": 110.0, "description": "أفوكادو طبيعي + موز + مانجو + مكسرات وعسل"}, {"id": 47, "name": "ريد نايت", "price": 110.0, "description": "بلح أسواني + أفوكادو + موز + مكسرات فاخرة"}, {"id": 48, "name": "دودينايت", "price": 110.0, "description": "أفوكادو غني + مانجو + بولة آيس كريم فانيليا"}], "ميلك شيك": [{"id": 12, "name": "ميلك شيك شوكليت", "price": 85.0, "description": "شوكولاتة بلجيكية غنية مع الآيس كريم والحليب"}, {"id": 13, "name": "ميلك شيك فانيليا", "price": 85.0, "description": "فانيليا طبيعية كريمية مع صوص الفانيليا"}, {"id": 14, "name": "ميلك شيك مانجو", "price": 85.0, "description": "مانجو طبيعي فريش مخفوق مع آيس كريم فانيليا"}, {"id": 15, "name": "ميلك شيك فراولة", "price": 85.0, "description": "فراولة طازجة مع الكريمة الغنية"}, {"id": 16, "name": "ميلك شيك كراميل", "price": 85.0, "description": "صوص الكراميل الذهبي مع آيس كريم الفانيليا"}, {"id": 17, "name": "ميلك شيك اوريو", "price": 95.0, "description": "بسكويت أوريو المطحون مع الآيس كريم وصوص الشوكولاتة"}, {"id": 20, "name": "ميلك شيك هوهوز", "price": 95.0, "description": "كيكة هوهوز بالشوكولاتة والكريمة المخفوقة"}, {"id": 22, "name": "ميلك شيك كيوى", "price": 95.0, "description": "كيوي فريش منعش مع الآيس كريم"}, {"id": 23, "name": "ميلك شيك توت", "price": 95.0, "description": "توت أزرق وأحمر طبيعي مخفوق"}, {"id": 24, "name": "ميلك شيك خوخ", "price": 95.0, "description": "خوخ طبيعي ناعم مع لمسة كريمة"}, {"id": 25, "name": "ميلك شيك اناناس", "price": 95.0, "description": "أناناس استوائي منعش"}, {"id": 26, "name": "ميلك شيك بشون فروت", "price": 95.0, "description": "باشن فروت منعش وحيوي"}, {"id": 29, "name": "ميلك شيك جوز هند", "price": 95.0, "description": "جوز هند استوائي ناعم ومميز"}, {"id": 30, "name": "ميلك شيك بينا كولادا", "price": 95.0, "description": "مزيج الأناناس مع حليب جوز الهند المنعش"}, {"id": 18, "name": "ميلك شيك كيت كات", "price": 100.0, "description": "قطع كيت كات المقرمشة مع حليب وشوكولاتة"}, {"id": 19, "name": "ميلك شيك سنيكرز", "price": 100.0, "description": "شوكولاتة سنيكرز مع الفول السوداني وصوص الكراميل"}, {"id": 21, "name": "ميلك شيك مورو", "price": 100.0, "description": "مورو بار الفاخر مع الشوكولاتة الذائبة"}, {"id": 27, "name": "ميلك شيك نوتيلا", "price": 100.0, "description": "شوكولاتة نوتيلا أصلية وبندق محمص"}, {"id": 28, "name": "ميلك شيك لوتس", "price": 100.0, "description": "زبدة لوتس أصلية مع بسكويت لوتس مطحون"}], "وافلز": [{"id": 56, "name": "وافل نوتيلا", "price": 75.0, "description": "عجينة وافل بلجيكية مقرمشة مغطاة بالنوتيلا الذائبة"}, {"id": 57, "name": "وافل كراميل", "price": 75.0, "description": "وافل ساخن مع صوص كراميل ذهبي"}, {"id": 58, "name": "وافل لوتس", "price": 80.0, "description": "وافل مع زبدة لوتس وبسكويت لوتس كرانشي"}, {"id": 59, "name": "وافل وايت شوكليت", "price": 80.0, "description": "شوكولاتة بلجيكية بيضاء ناعمة ولذيذة"}, {"id": 60, "name": "وافل بنانا كراميل", "price": 85.0, "description": "شرائح موز طازج مع صوص الكراميل ورشة قرفة"}, {"id": 61, "name": "وافل بستاشيو", "price": 90.0, "description": "صوص الفستق الإيطالي (بيستاشيو) مع فستق مجروش"}, {"id": 62, "name": "وافل نوتيلا فواكه", "price": 90.0, "description": "نوتيلا غنية مع قطع موز وفراولة وكيوي"}, {"id": 63, "name": "وافل اوريو نوتيلا", "price": 90.0, "description": "مزيج نوتيلا مع بسكويت أوريو مقرمش"}, {"id": 64, "name": "وافل ايس", "price": 90.0, "description": "وافل ساخن مقرمش مع بولة آيس كريم فانيليا وصوص"}, {"id": 65, "name": "فته وافلز", "price": 110.0, "description": "قطع وافل + هوهوز + توينكيز + أوريو + 4 صوصات فاخرة"}, {"id": 66, "name": "وافلز القيصر", "price": 110.0, "description": "الوافل الخاص بسيزر: ميكس لوتس، نوتيلا، بستاشيو، ومكسرات"}]};
+        let menuData = FALLBACK_MENU;
+
+        // Parse Table Number from URL (?table=X)
+        const urlParams = new URLSearchParams(window.location.search);
+        const paramTable = parseInt(urlParams.get('table'));
+        if (paramTable && paramTable >= 1 && paramTable <= 50) {
+            document.getElementById('currentTableDisplay').textContent = `ترابيزة رقم ${paramTable}`;
+            document.getElementById('tableDisplayWrapper').style.display = 'flex';
+        }
+
+        function getCategoryIcon(catName) {
+            if (catName.includes('الكوفى') || catName.includes('كوفي') || catName.includes('قهوة')) return 'fa-mug-hot';
+            if (catName.includes('ساخنة') || catName.includes('شاى') || catName.includes('سحلب')) return 'fa-mug-saucer';
+            if (catName.includes('شيك')) return 'fa-blender';
+            if (catName.includes('وافل')) return 'fa-stroopwafel';
+            if (catName.includes('بان كيك')) return 'fa-pancake';
+            if (catName.includes('فريش') || catName.includes('عصائر')) return 'fa-glass-water';
+            if (catName.includes('صودا') || catName.includes('موهيتو')) return 'fa-champagne-glasses';
+            if (catName.includes('أم على')) return 'fa-bowl-rice';
+            if (catName.includes('أيس كريم')) return 'fa-ice-cream';
+            if (catName.includes('فروت')) return 'fa-apple-whole';
+            if (catName.includes('غازية')) return 'fa-bottle-droplet';
+            if (catName.includes('شيشة')) return 'fa-fire-flame-curved';
+            return 'fa-utensils';
+        }
+
+        // Fetch Menu Items from Server
+        async function loadMenu() {
+            try {
+                const res = await fetch('/api/cezar/menu-items');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.categories && Object.keys(data.categories).length > 0) {
+                        menuData = data.categories;
+                    }
+                }
+            } catch (e) {
+                console.log('Serving offline/embedded menu data');
+            }
+            renderCategories();
+            renderMenu();
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('categoriesScroll');
+            container.innerHTML = '';
+
+            const allTab = document.createElement('button');
+            allTab.className = 'category-tab active';
+            allTab.innerHTML = `<i class="fa-solid fa-star"></i> الكل`;
+            allTab.onclick = () => filterCategory('all', allTab);
+            container.appendChild(allTab);
+
+            for (const cat of Object.keys(menuData)) {
+                const icon = getCategoryIcon(cat);
+                const btn = document.createElement('button');
+                btn.className = 'category-tab';
+                btn.innerHTML = `<i class="fa-solid ${icon}"></i> ${cat}`;
+                btn.onclick = () => filterCategory(cat, btn);
+                container.appendChild(btn);
+            }
+        }
+
+        function filterCategory(targetCat, btnEl) {
+            document.querySelectorAll('.category-tab').forEach(b => b.classList.remove('active'));
+            btnEl.classList.add('active');
+
+            if (targetCat === 'all') {
+                renderMenu();
+            } else {
+                const singleCatData = {};
+                if (menuData[targetCat]) {
+                    singleCatData[targetCat] = menuData[targetCat];
+                }
+                renderMenu(singleCatData);
+            }
+        }
+
+        function renderMenu(dataToRender = menuData) {
+            const container = document.getElementById('menuContainer');
+            container.innerHTML = '';
+
+            const categories = Object.entries(dataToRender);
+            if (categories.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <p style="font-weight: 700;">لا توجد أصناف مطابقة للبحث</p>
+                    </div>`;
+                return;
+            }
+
+            for (const [catName, items] of categories) {
+                const section = document.createElement('section');
+                section.className = 'menu-section';
+
+                const icon = getCategoryIcon(catName);
+                section.innerHTML = `
+                    <div class="section-header">
+                        <i class="fa-solid ${icon}" style="color: var(--cezar-orange); font-size: 18px;"></i>
+                        <h2>${catName}</h2>
+                        <span class="count-badge">${items.length}</span>
+                    </div>
+                    <div class="items-grid"></div>
+                `;
+
+                container.appendChild(section);
+                const grid = section.querySelector('.items-grid');
+
+                items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'item-card';
+
+                    card.innerHTML = `
+                        <div class="item-info">
+                            <div class="item-name">${item.name}</div>
+                            ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
+                        </div>
+                        <div class="item-price-badge">
+                            <span>${item.price}</span>
+                            <span class="currency">ج.م</span>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+        }
+
+        function handleSearch() {
+            const q = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (!q) {
+                renderMenu();
+                return;
+            }
+
+            const filtered = {};
+            for (const [cat, items] of Object.entries(menuData)) {
+                const matching = items.filter(it => 
+                    it.name.toLowerCase().includes(q) || 
+                    (it.description && it.description.toLowerCase().includes(q))
+                );
+                if (matching.length > 0) {
+                    filtered[cat] = matching;
+                }
+            }
+            renderMenu(filtered);
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', loadMenu);
+    </script>
+</body>
+</html>
